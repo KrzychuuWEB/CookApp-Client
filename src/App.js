@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './views/Home';
+import Login from "./views/Security/Login";
+import Register from "./views/Security/Register";
+import ReadRecipe from "./views/Recipe/Read";
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    render() {
+        const loader = document.getElementById('md-loader');
+
+        if(loader) {
+            loader.classList.add("hide-loader");
+        }
+
+        return (
+            <Router>
+                <div className="container">
+                    <Header/>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/recipe/:id" component={ReadRecipe} />
+                </div>
+            </Router>
+        );
+    }
 }
 
 export default App;

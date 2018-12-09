@@ -1,18 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <title>React App</title>
+    <title>Ecook</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <style>
+      .hide-loader {
+        display: none!important;
+      }
+
+      #md-loader {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #md-loader div {
+        width: 80px;
+      }
+
+      #md-loader img {
+        width: 100%;
+        height: auto;
+        -webkit-animation: pagePreLoader 2s infinite;
+        animation: pagePreLoader 2s infinite;
+      }
+
+      @-webkit-keyframes pagePreLoader {
+        0%, 100% {
+          opacity: .2;
+        }
+
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @-moz-keyframes pagePreLoader {
+        0%, 100% {
+          opacity: .2;
+        }
+
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes pagePreLoader {
+        0%, 100% {
+          opacity: .2;
+        }
+
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+
+    <div id="md-loader">
+      <div>
+        <img src="https://zapodaj.net/images/104bc55206fc1.png" alt="logo ecook" />
+      </div>
+    </div>
 
     <div id="root"></div>
   </body>

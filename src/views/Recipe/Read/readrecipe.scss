@@ -1,6 +1,7 @@
-.container {
-  margin-top: 40px;
-  padding: 10px;
+.paper-margin-read-recipe {
+  padding: 10px 0 10px 0;
+  margin-top: 90px;
+  margin-bottom: 10px;
 }
 
 .icon-position {
@@ -9,7 +10,27 @@
   top: 0;
 }
 
-.avatar-info {
-  margin-left: 10px;
-  margin-top: 3px;
+.section-margin {
+  margin-left: 15px;
+}
+
+.margin-section-heading {
+  margin-top: 15px;
+}
+
+.gallery-flex-read-recipe {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .photo-read-recipe {
+    width: 500px;
+    margin: 5px 8px;
+
+    img {
+      width: 100%;
+      min-height: auto;
+      border-radius: 4px;
+    }
+  }
 }

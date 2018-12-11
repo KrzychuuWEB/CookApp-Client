@@ -6,6 +6,7 @@ class Header extends Component {
         return(
             <div>
                 <NavBar/>
+                <div style={{marginTop: 80}}/>
             </div>
         );
     };

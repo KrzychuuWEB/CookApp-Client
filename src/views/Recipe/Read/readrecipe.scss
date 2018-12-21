@@ -1,36 +1,49 @@
-.paper-margin-read-recipe {
-  padding: 10px 0 10px 0;
-  margin-top: 90px;
-  margin-bottom: 10px;
-}
+.read-recipe {
+  .paper-margin-read-recipe {
+    padding: 10px 0 10px 0;
+    margin-top: 90px;
+    margin-bottom: 10px;
+  }
 
-.icon-position {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
+  .section-margin {
+    padding: 0 15px;
+  }
 
-.section-margin {
-  margin-left: 15px;
-}
+  .margin-section-heading {
+    margin-top: 15px;
+  }
 
-.margin-section-heading {
-  margin-top: 15px;
-}
+  .gallery-flex-read-recipe {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 
-.gallery-flex-read-recipe {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+    .photo-read-recipe {
+      width: 500px;
+      margin: 5px 8px;
 
-  .photo-read-recipe {
-    width: 500px;
-    margin: 5px 8px;
+      img {
+        width: 100%;
+        min-height: auto;
+        border-radius: 4px;
+      }
+    }
+  }
 
-    img {
-      width: 100%;
-      min-height: auto;
-      border-radius: 4px;
+  .flex-icon-info {
+    display: flex;
+    align-items: center;
+
+    .icon-center-text {
+      margin-right: 20px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+
+      p {
+        margin-top: 2px;
+        margin-left: 5px;
+      }
     }
   }
 }

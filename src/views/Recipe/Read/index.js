@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import './readrecipe.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
-import { MoreVert, FlagOutlined, ExpandMore } from '@material-ui/icons';
+import { MoreVert, FlagOutlined, ExpandMore, AccessTime, Star } from '@material-ui/icons';
 import Avatar from "@material-ui/core/es/Avatar/Avatar";
 import deepOrange from "@material-ui/core/es/colors/deepOrange";
 import Typography from "@material-ui/core/es/Typography/Typography";
@@ -18,6 +18,7 @@ import FormGroup from "@material-ui/core/es/FormGroup/FormGroup";
 import ExpansionPanel from "@material-ui/core/es/ExpansionPanel/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/es/ExpansionPanelSummary/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/es/ExpansionPanelDetails/ExpansionPanelDetails";
+import Icon from "@material-ui/core/es/Icon/Icon";
 
 const styles = theme => ({
     expansion: {
@@ -49,7 +50,7 @@ class ReadRecipe extends Component {
         const { classes } = this.props;
 
         return(
-            <div>
+            <div className="read-recipe">
                 <Paper className="paper-margin-read-recipe">
                     <CardHeader
                         avatar={
@@ -60,7 +61,6 @@ class ReadRecipe extends Component {
                         action={
                             <div>
                                 <IconButton
-                                    className="icon-position"
                                     aria-owns={anchorEl ? 'simple-menu' : undefined}
                                     aria-haspopup="true"
                                     onClick={this.handleClick}
@@ -93,6 +93,26 @@ class ReadRecipe extends Component {
                             This impressive paella is a perfect party dish and a fun meal to cook together with your
                             guests. Add 1 cup of frozen peas along with the mussels, if you like.
                         </Typography>
+
+                        <div className="flex-icon-info">
+                            <div className="icon-center-text">
+                                <Icon color="secondary">
+                                    <AccessTime />
+                                </Icon>
+                                <Typography color="secondary">
+                                    60 minut
+                                </Typography>
+                            </div>
+
+                            <div className="icon-center-text">
+                                <Icon color="secondary">
+                                    <Star />
+                                </Icon>
+                                <Typography color="secondary">
+                                    Łatwy
+                                </Typography>
+                            </div>
+                        </div>
                     </div>
                 </Paper>
 
@@ -144,7 +164,7 @@ class ReadRecipe extends Component {
                     <div className="section-margin margin-section-heading gallery-flex-read-recipe">
                         {[1, 2, 3].map(value => (
                             <div className="photo-read-recipe">
-                                <img src="https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+                                <img alt="test" src="https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
                             </div>
                         ))}
                     </div>

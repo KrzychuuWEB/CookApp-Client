@@ -36,7 +36,7 @@ class Home extends Component {
 
         return (
             <div>
-                <Fab component={Link} to="/" color="secondary" aria-label="Add" style={fab}>
+                <Fab component={Link} to="/upload" color="secondary" aria-label="Upload recipe" style={fab}>
                     <AddIcon />
                 </Fab>
 

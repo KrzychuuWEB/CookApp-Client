@@ -22,6 +22,7 @@ const styles = theme => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '25vh',
+        marginBottom: '50px',
     },
 
     container: {

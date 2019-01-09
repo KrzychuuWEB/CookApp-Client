@@ -74,18 +74,6 @@ const styles = theme => ({
             width: 200,
         },
     },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
 });
 
 class NavBar extends React.Component {

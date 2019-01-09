@@ -6,17 +6,15 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import UploadStepsInformations from "../../../components/Read/Upload/Steps/Informations";
-import UploadStepsPhotos from "../../../components/Read/Upload/Steps/Photos";
+import UploadStepsInformation from "../../../components/Recipe/Upload/Steps/Information";
+import UploadStepsPhotos from "../../../components/Recipe/Upload/Steps/Photos";
+import UploadStepsIngredients from "../../../components/Recipe/Upload/Steps/Ingredients";
 
 const styles = theme => ({
     root: {
         width: '95%',
         marginLeft: 'auto',
         marginRight: 'auto',
-    },
-    backButton: {
-        marginRight: theme.spacing.unit,
     },
     instructions: {
         marginTop: theme.spacing.unit,
@@ -35,11 +33,15 @@ function getSteps() {
 
 class UploadRecipe extends Component {
     state = {
-        activeStep: 0,
-        recipe_name: '',
-        recipe_description: '',
-        recipe_level: '',
-        recipe_time: '',
+        activeStep: 2,
+        values: {
+            recipe_name: '',
+            recipe_description: '',
+            recipe_level: '',
+            recipe_time: '',
+            photos: {},
+            ingredients: {},
+        },
     };
 
     handleNext = () => {
@@ -61,28 +63,30 @@ class UploadRecipe extends Component {
     };
 
     handleChange = input => e => {
-        this.setState({ [input]: e.target.value });
+        this.setState({values: {...this.state.values, [input]: e.target.value }});
     };
 
     getStepContent(stepIndex) {
         switch (stepIndex) {
             case 0:
-                return <UploadStepsInformations
-                    values={this.state}
+                return <UploadStepsInformation
+                    values={this.state.values}
                     nextStep={this.handleNext}
                     handleChange={this.handleChange}
                 />;
 
             case 1:
                 return <UploadStepsPhotos
-                    values={this.state}
+                    values={this.state.values}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
-                    handleChange={this.handleChange}
                 />;
 
             case 2:
-                return '';
+                return <UploadStepsIngredients
+                    values={this.state.values}
+                    backStep={this.handleBack}
+                />;
 
             case 3:
                 return '';
@@ -117,7 +121,9 @@ class UploadRecipe extends Component {
                         </div>
                     ) : (
                         <div>
-                            {this.getStepContent(activeStep)}
+                           <form noValidate autoComplete="off">
+                               {this.getStepContent(activeStep)}
+                           </form>
                         </div>
                     )}
                 </div>

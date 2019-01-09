@@ -11,6 +11,7 @@ import Select from "@material-ui/core/es/Select/Select";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import Button from "@material-ui/core/es/Button/Button";
+import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 
 const styles = theme => ({
     root: {
@@ -26,14 +27,67 @@ const styles = theme => ({
     },
 });
 
-class UploadStepsInformations extends Component {
+class UploadStepsInformation extends Component {
+    state = {
+        errors: {},
+    };
+
+    validation = () => {
+        let errors = { ...this.state };
+        let { values } = this.props;
+        let isError = false;
+
+        if(values.recipe_name.length < 1) {
+            isError = true;
+            errors.recipe_name = "Pole jest wymagane!"
+        }
+
+        if(values.recipe_description.length < 1) {
+            isError = true;
+            errors.recipe_description = "Pole jest wymagane!"
+        } else if(values.recipe_description.length > 250) {
+            isError = true;
+            errors.recipe_description = "Pole nie może zawierać więcej niż 250 znaków!!"
+        }
+
+        if(values.recipe_level < 1) {
+            isError = true;
+            errors.recipe_level = "Pole jest wymagane!"
+        } else if(!Number.isInteger(parseInt(values.recipe_level))) {
+            isError = true;
+            errors.recipe_level = "Zawartość musi być liczbowa!"
+        }
+
+        if(values.recipe_time < 1) {
+            isError = true;
+            errors.recipe_time = "Pole jest wymagane!"
+        } else if(!Number.isInteger(parseInt(values.recipe_time))) {
+            isError = true;
+            errors.recipe_time = "Wpisz tylko liczby!"
+        }
+
+        this.setState({errors});
+        return isError;
+    };
+
+    onClick = () => {
+        let checkError = this.validation();
+
+        if(!checkError) {
+            this.props.nextStep();
+        } else {
+            return false;
+        }
+    };
+
     render() {
-        const { classes, handleChange, values, nextStep } = this.props;
+        const { classes, handleChange, values } = this.props;
+        const { errors } = this.state;
 
         return (
             <div>
                 <Paper className={classes.root}>
-                    <Typography color="secondary" variant="title">
+                    <Typography color="secondary" variant="h6">
                         Informacje o przepisie
                     </Typography>
 
@@ -44,6 +98,8 @@ class UploadStepsInformations extends Component {
                             label="Nazwa przepisu"
                             name="recipe_name"
                             value={values.recipe_name}
+                            error={!!errors.recipe_name}
+                            helperText={errors.recipe_name}
                         />
 
                         <TextField
@@ -54,9 +110,14 @@ class UploadStepsInformations extends Component {
                             multiline
                             rows="4"
                             value={values.recipe_description}
+                            error={!!errors.recipe_description}
+                            helperText={errors.recipe_description}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">{values.recipe_description.length+"/250"}</InputAdornment>
+                            }}
                         />
 
-                        <FormControl className={classes.field}>
+                        <FormControl className={classes.field} error={!!errors.recipe_level}>
                             <InputLabel htmlFor="recipe_level_label">Poziom trudności</InputLabel>
                             <Select
                                 value={values.recipe_level}
@@ -70,6 +131,7 @@ class UploadStepsInformations extends Component {
                                 <MenuItem value={2}>Średni</MenuItem>
                                 <MenuItem value={3}>Trudny</MenuItem>
                             </Select>
+                            <FormHelperText>{errors.recipe_level}</FormHelperText>
                         </FormControl>
 
                         <TextField
@@ -82,6 +144,8 @@ class UploadStepsInformations extends Component {
                                 endAdornment: <InputAdornment position="end">Minut</InputAdornment>
                             }}
                             value={values.recipe_time}
+                            error={!!errors.recipe_time}
+                            helperText={errors.recipe_time}
                         />
                     </div>
                 </Paper>
@@ -90,7 +154,7 @@ class UploadStepsInformations extends Component {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={nextStep}
+                        onClick={this.onClick}
                     >Dalej</Button>
                 </div>
             </div>
@@ -98,8 +162,8 @@ class UploadStepsInformations extends Component {
     };
 }
 
-UploadStepsInformations.propTypes = {
+UploadStepsInformation.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UploadStepsInformations);
+export default withStyles(styles)(UploadStepsInformation);

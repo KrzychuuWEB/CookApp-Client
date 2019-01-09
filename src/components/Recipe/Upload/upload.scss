@@ -1,0 +1,52 @@
+.upload-recipe {
+  padding: 0 15px;
+  @media (max-width: 480px)  {
+    padding: 0 5px;
+  }
+
+  .container-upload-button {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px dashed silver;
+    width: 100%;
+  }
+
+  .center-field {
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+
+    > div {
+      margin-bottom: 15px;
+    }
+  }
+
+  .ingredientsInput {
+    width: 55%;
+    margin-right: 10px;
+
+    @media (max-width: 480px)  {
+      width: 41%;
+      margin-right: 3px;
+    }
+  }
+
+  .valueInput {
+    width: 20%;
+  }
+
+  .unitInput {
+    width: 15%;
+    @media (max-width: 480px)  {
+      width: 20%;
+    }
+  }
+}
+
+.steps-button {
+  margin: 15px 0 10px 40px;
+
+  button {
+    margin-right: 10px;
+  }
+}

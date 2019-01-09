@@ -84,7 +84,7 @@ class ReadRecipe extends Component {
                 </Paper>
 
                 <Paper className={classes.paper}>
-                    <Typography variant="title" color="secondary">
+                    <Typography variant="h6" color="secondary">
                         Shrimp and Chorizo Paella
                     </Typography>
 
@@ -117,7 +117,7 @@ class ReadRecipe extends Component {
                 </Paper>
 
                 <Paper className={classes.paper}>
-                    <Typography variant="title" color="secondary">
+                    <Typography variant="h6" color="secondary">
                         Składniki
                     </Typography>
 
@@ -133,7 +133,7 @@ class ReadRecipe extends Component {
                 </Paper>
 
                 <Paper className={classes.paper}>
-                    <Typography variant="title" color="secondary">
+                    <Typography variant="h6" color="secondary">
                         Przygotowanie krok po kroku
                     </Typography>
 
@@ -157,7 +157,7 @@ class ReadRecipe extends Component {
                 </Paper>
 
                 <Paper className={classes.paper}>
-                    <Typography variant="title" color="secondary">
+                    <Typography variant="h6" color="secondary">
                         Zdjęcia
                     </Typography>
 

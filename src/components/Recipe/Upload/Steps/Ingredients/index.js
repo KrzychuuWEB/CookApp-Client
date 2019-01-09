@@ -65,7 +65,7 @@ class UploadStepsIngredients extends Component {
         this.setState({ingredients});
     };
 
-    validate = () => {
+    validation = () => {
         let values = this.state.ingredients;
         let isError = false;
         let setErrors = {};
@@ -73,14 +73,17 @@ class UploadStepsIngredients extends Component {
         for(let key of Object.keys(values)) {
             if(values[key]['name'].length < 1) {
                 setErrors['error_name' + key] = "Pole jest wymagane!";
+                isError = true;
             }
 
             if(values[key]['value'].length < 1) {
                 setErrors['error_value' + key] = "Pole jest wymagane!";
+                isError = true;
             }
 
             if(values[key]['unit'].length < 1) {
                 setErrors['error_unit' + key] = "Pole jest wymagane!";
+                isError = true;
             }
         }
 
@@ -89,7 +92,13 @@ class UploadStepsIngredients extends Component {
     };
 
     onSubmit = () => {
-        this.validate();
+        let isValid = this.validation();
+
+        if(!isValid) {
+            this.props.nextStep();
+        } else {
+            return false;
+        }
     };
 
     render() {

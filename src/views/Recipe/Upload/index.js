@@ -86,6 +86,7 @@ class UploadRecipe extends Component {
                 return <UploadStepsIngredients
                     values={this.state.values}
                     backStep={this.handleBack}
+                    nextStep={this.handleNext}
                 />;
 
             case 3:

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import './readrecipe.scss';
@@ -54,9 +55,11 @@ class ReadRecipe extends Component {
                 <Paper className="paper-margin-read-recipe">
                     <CardHeader
                         avatar={
-                            <Avatar style={{backgroundColor: deepOrange[500]}}>
-                                K
-                            </Avatar>
+                            <Link className="user-link" to="/user/1">
+                                <Avatar style={{backgroundColor: deepOrange[500]}}>
+                                    K
+                                </Avatar>
+                            </Link>
                         }
                         action={
                             <div>
@@ -78,7 +81,13 @@ class ReadRecipe extends Component {
                                 </Menu>
                             </div>
                         }
-                        title="KrzychuuWEB"
+                        title={
+                            <Link className="user-link" to="/user/1">
+                                <Typography>
+                                    KrzychuuWEB
+                                </Typography>
+                            </Link>
+                        }
                         subheader="September 14, 2016"
                     />
                 </Paper>

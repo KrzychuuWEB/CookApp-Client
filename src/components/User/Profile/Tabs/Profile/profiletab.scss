@@ -1,0 +1,20 @@
+.profile-tab {
+  > div {
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    .line {
+      width: 98%;
+      height: 2px;
+      border-radius: 100%;
+      background-color: #efefef;
+      margin: 20px auto 10px auto;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+}

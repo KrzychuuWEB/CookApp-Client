@@ -12,6 +12,7 @@ import CardContent from "@material-ui/core/es/CardContent/CardContent";
 import Typography from "@material-ui/core/es/Typography/Typography";
 import CardActions from "@material-ui/core/es/CardActions/CardActions";
 import Button from "@material-ui/core/es/Button/Button";
+import { cutText } from "../../helpers/cutText";
 
 const styles = {
     card: {
@@ -61,8 +62,9 @@ class Home extends Component {
 
                             <CardContent>
                                 <Typography component="p">
-                                    This impressive paella is a perfect party dish and a fun meal to cook together with your
-                                    guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                                    {
+                                        cutText("This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.", 100)
+                                    }
                                 </Typography>
                             </CardContent>
 

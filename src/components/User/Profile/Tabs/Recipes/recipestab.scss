@@ -1,0 +1,25 @@
+.recipes-tab {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .card-media {
+    height: 140px;
+  }
+
+  .card-width {
+    width: 345px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+
+    @media (min-width: 1280px) {
+      width: 280px;
+    }
+
+    @media (min-width: 1024px) and (max-width: 1280px) {
+      width: 310px;
+    }
+  }
+}

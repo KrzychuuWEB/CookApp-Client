@@ -29,45 +29,77 @@
         align-items: center;
       }
 
-      #md-loader div {
-        width: 80px;
+      #md-loader h2 {
+        color: #43a047;
+        font-size: 56px;
+        font-family: 'Roboto', sans-serif;
+        margin-bottom: 10px;
       }
 
-      #md-loader img {
+      @-webkit-keyframes indeterminate-effect {
+        from {
+          left: -10%;
+          width: 5%;
+        }
+        to {
+          left: 110%;
+          width: 100%;
+        }
+      }
+      @-moz-keyframes indeterminate-effect {
+        from {
+          left: -10%;
+          width: 5%;
+        }
+        to {
+          left: 110%;
+          width: 100%;
+        }
+      }
+      @keyframes indeterminate-effect {
+        from {
+          left: -10%;
+          width: 5%;
+        }
+        to {
+          left: 110%;
+          width: 100%;
+        }
+      }
+
+      .md-progress-bar {
+        position: relative;
         width: 100%;
-        height: auto;
-        -webkit-animation: pagePreLoader 2s infinite;
-        animation: pagePreLoader 2s infinite;
+        height: 5px;
+        z-index: 900;
+        display: block;
+        background-color: #c8e6c9;
+        overflow: hidden;
       }
 
-      @-webkit-keyframes pagePreLoader {
-        0%, 100% {
-          opacity: .2;
-        }
-
-        50% {
-          opacity: 1;
-        }
+      .md-progress-bar div.md-progress-indeterminate::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30%;
+        background-color: #43a047;
+        height: 5px;
+        -webkit-animation: indeterminate-effect 2s infinite;
+        animation: indeterminate-effect 2s infinite;
       }
 
-      @-moz-keyframes pagePreLoader {
-        0%, 100% {
-          opacity: .2;
-        }
-
-        50% {
-          opacity: 1;
-        }
-      }
-
-      @keyframes pagePreLoader {
-        0%, 100% {
-          opacity: .2;
-        }
-
-        50% {
-          opacity: 1;
-        }
+      .md-progress-bar div.md-progress-indeterminate::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -30%;
+        width: 30%;
+        background-color: #43a047;
+        height: 5px;
+        -webkit-animation: indeterminate-effect 2s infinite;
+        animation: indeterminate-effect 2s infinite;
+        animation-delay: 1s;
       }
     </style>
   </head>
@@ -78,7 +110,11 @@
 
     <div id="md-loader">
       <div>
-        <img src="https://zapodaj.net/images/104bc55206fc1.png" alt="logo ecook" />
+        <h2>ECook</h2>
+
+        <div class="md-progress-bar">
+          <div class="md-progress-indeterminate"></div>
+        </div>
       </div>
     </div>
 

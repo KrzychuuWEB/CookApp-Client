@@ -20,6 +20,7 @@ import ExpansionPanel from "@material-ui/core/es/ExpansionPanel/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/es/ExpansionPanelSummary/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/es/ExpansionPanelDetails/ExpansionPanelDetails";
 import Icon from "@material-ui/core/es/Icon/Icon";
+import Lightbox from "../../../components/Lightbox";
 
 const styles = theme => ({
     expansion: {
@@ -171,13 +172,23 @@ class ReadRecipe extends Component {
                     </Typography>
 
                     <div className="section-margin margin-section-heading gallery-flex-read-recipe">
-                        {[1, 2, 3].map(value => (
+                        {[
+                            "https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+                            "http://www.kamilczaja.com/wp-content/uploads/2013/03/008-fotografia_reklamowa_jedzenia_i_potrawy_krewetki_z_grzankami-zdjecia-do-restauracji.jpg",
+                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzDyuoBbBUKA5kED0di-93KpoC1odh8-qwjvDMFZcTaZSn9WXb",
+
+                        ].map(value => (
                             <div className="photo-read-recipe">
-                                <img alt="test" src="https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+                                <Lightbox
+                                    className="img-style"
+                                    alt="test"
+                                    src={value}
+                                />
                             </div>
                         ))}
                     </div>
                 </Paper>
+
             </div>
         );
     };

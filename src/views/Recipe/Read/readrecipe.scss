@@ -11,6 +11,23 @@
 
   .margin-section-heading {
     margin-top: 15px;
+
+    .flex-icon-info {
+      display: flex;
+      align-items: center;
+
+      .icon-center-text {
+        margin-right: 20px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+
+        p {
+          margin-top: 2px;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 
   .gallery-flex-read-recipe {
@@ -19,30 +36,13 @@
     flex-wrap: wrap;
 
     .photo-read-recipe {
-      width: 500px;
+      width: 200px;
       margin: 5px 8px;
 
-      img {
+      .img-style {
         width: 100%;
         min-height: auto;
         border-radius: 4px;
-      }
-    }
-  }
-
-  .flex-icon-info {
-    display: flex;
-    align-items: center;
-
-    .icon-center-text {
-      margin-right: 20px;
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-
-      p {
-        margin-top: 2px;
-        margin-left: 5px;
       }
     }
   }

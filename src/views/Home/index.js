@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import './home.scss';
 import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import './home.scss';
 import Card from "@material-ui/core/es/Card/Card";
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from "@material-ui/core/es/Avatar/Avatar";
@@ -14,21 +13,8 @@ import CardActions from "@material-ui/core/es/CardActions/CardActions";
 import Button from "@material-ui/core/es/Button/Button";
 import { cutText } from "../../helpers/cutText";
 
-const styles = {
-    card: {
-        maxWidth: 320,
-        margin: 10,
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-    },
-};
-
 class Home extends Component {
     render() {
-        const { classes } = this.props;
-
         const fab = {
           position: 'fixed',
           bottom: 35,
@@ -36,14 +22,14 @@ class Home extends Component {
         };
 
         return (
-            <div>
+            <div className="home-container">
                 <Fab component={Link} to="/upload" color="secondary" aria-label="Upload recipe" style={fab}>
                     <AddIcon />
                 </Fab>
 
                 <div className="flex-card">
                     {[0, 1, 2, 3, 4].map(value => (
-                        <Card className={classes.card}>
+                        <Card className="card">
                             <CardHeader
                                 avatar={
                                     <Avatar aria-label="Recipe">
@@ -55,7 +41,7 @@ class Home extends Component {
                             />
 
                             <CardMedia
-                                className={classes.media}
+                                className="media"
                                 image="https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                                 title="Paella dish"
                             />
@@ -79,4 +65,4 @@ class Home extends Component {
     }
 }
 
-export default withStyles(styles)(Home);
+export default Home;

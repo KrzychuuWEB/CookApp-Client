@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import '../../upload.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/es/Typography/Typography";
 import { TextField } from "@material-ui/core";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
@@ -12,20 +10,6 @@ import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import Button from "@material-ui/core/es/Button/Button";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
-
-const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        marginTop: 15,
-    },
-
-    field: {
-        width: '100%',
-        marginBottom: 15,
-    },
-});
 
 class UploadStepsInformation extends Component {
     state = {
@@ -81,12 +65,12 @@ class UploadStepsInformation extends Component {
     };
 
     render() {
-        const { classes, handleChange, values } = this.props;
+        const { handleChange, values } = this.props;
         const { errors } = this.state;
 
         return (
             <div>
-                <Paper className={classes.root}>
+                <Paper className="upload-box">
                     <Typography color="secondary" variant="h6">
                         Informacje o przepisie
                     </Typography>
@@ -94,7 +78,7 @@ class UploadStepsInformation extends Component {
                     <div className="upload-recipe">
                         <TextField
                             onChange={handleChange('recipe_name')}
-                            className={classes.field}
+                            className="information-field"
                             label="Nazwa przepisu"
                             name="recipe_name"
                             value={values.recipe_name}
@@ -104,7 +88,7 @@ class UploadStepsInformation extends Component {
 
                         <TextField
                             onChange={handleChange('recipe_description')}
-                            className={classes.field}
+                            className="information-field"
                             name="recipe_description"
                             label="Opis przepisu"
                             multiline
@@ -117,7 +101,7 @@ class UploadStepsInformation extends Component {
                             }}
                         />
 
-                        <FormControl className={classes.field} error={!!errors.recipe_level}>
+                        <FormControl className="information-field" error={!!errors.recipe_level}>
                             <InputLabel htmlFor="recipe_level_label">Poziom trudności</InputLabel>
                             <Select
                                 value={values.recipe_level}
@@ -138,7 +122,7 @@ class UploadStepsInformation extends Component {
                             onChange={handleChange('recipe_time')}
                             name="recipe_time"
                             type="number"
-                            className={classes.field}
+                            className="information-field"
                             label="Czas przygotowania przepisu"
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">Minut</InputAdornment>
@@ -162,8 +146,4 @@ class UploadStepsInformation extends Component {
     };
 }
 
-UploadStepsInformation.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(UploadStepsInformation);
+export default UploadStepsInformation;

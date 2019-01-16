@@ -1,0 +1,24 @@
+.login-container {
+  .login-box {
+    padding: 20px;
+    max-width: 420px;
+    margin: 25vh auto 50px auto;
+  }
+
+  .login-form {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .field-width {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .buttons {
+    width: 95%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

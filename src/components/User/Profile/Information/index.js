@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import './information.scss';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -8,30 +6,16 @@ import Avatar from "@material-ui/core/es/Avatar/Avatar";
 import Button from "@material-ui/core/es/Button/Button";
 import Icon from "@material-ui/core/es/Icon/Icon";
 
-const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-    },
-    avatar: {
-        height: 80,
-        width: 80,
-    },
-});
-
 class UserInformation extends Component {
     render() {
-        const { classes } = this.props;
-
         return (
-            <div>
-                <Paper className={classes.root}>
+            <div className="user-information-container">
+                <Paper className="user-information-box">
                     <div className="flex-user-info-section">
                         <div className="left-user-section">
-                            <div className="flex-left-section">
+                            <div className="flex-avatar-section">
                                 <div>
-                                    <Avatar className={classes.avatar} src="https://images89.fotosik.pl/103/ee0c33fe1b62f569med.png" alt="Krzychuu avatar" />
+                                    <Avatar className="avatar" src="https://images89.fotosik.pl/103/ee0c33fe1b62f569med.png" alt="Krzychuu avatar" />
                                     <span className="active-user online" />
                                 </div>
 
@@ -89,8 +73,4 @@ class UserInformation extends Component {
     }
 }
 
-UserInformation.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(UserInformation);
+export default UserInformation;

@@ -1,4 +1,29 @@
 .register-container {
+  .register-box {
+    padding: 20px;
+    max-width: 420px;
+    margin: 25vh auto 50px auto;
+  }
+
+  .register-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .field-width {
+    width: 90%;
+    margin-top: 15px;
+  }
+
+  .buttons {
+    margin-top: 15px;
+    margin-left: auto;
+
+    .button {
+      margin-right: 20px;
+    }
+  }
 
   .terms-container {
     width: 100%;

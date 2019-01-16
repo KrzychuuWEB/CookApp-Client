@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './register.scss';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography/Typography";
 import TextField from "@material-ui/core/TextField/TextField";
@@ -15,40 +13,6 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlLabel";
 import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
-
-const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        maxWidth: 420,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: '25vh',
-        marginBottom: '50px',
-    },
-
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-
-    widthBox: {
-        width: '90%',
-        marginTop: 15,
-    },
-
-    buttonDiv: {
-        marginTop: 25,
-        marginLeft: 'auto',
-    },
-
-    button: {
-        marginRight: theme.spacing.unit * 2,
-    },
-});
-
 
 class Register extends Component {
     state = {
@@ -144,20 +108,19 @@ class Register extends Component {
     };
 
     render() {
-        const { classes } = this.props;
         const { errors, values } = this.state;
 
         return (
             <div className="register-container">
-                <Paper className={classes.root} elevation={1}>
+                <Paper className="register-box" elevation={1}>
                     <Typography variant="h6" color="secondary">
                         Zarejestruj się!
                     </Typography>
 
-                    <form className={classes.container} noValidate autoComplete="off">
+                    <form className="register-form" noValidate autoComplete="off">
                         <TextField
                             value={values.login}
-                            className={classes.widthBox}
+                            className="field-width"
                             label="Login"
                             onChange={this.onChange("login")}
                             error={!!errors.login}
@@ -165,14 +128,14 @@ class Register extends Component {
                         />
                         <TextField
                             value={values.email}
-                            className={classes.widthBox}
+                            className="field-width"
                             label="Email"
                             onChange={this.onChange("email")}
                             error={!!errors.email}
                             helperText={errors.email}
                         />
 
-                        <FormControl className={classes.widthBox} error={!!errors.password}>
+                        <FormControl className="field-width" error={!!errors.password}>
                             <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                             <Input
                                 value={values.password}
@@ -193,7 +156,7 @@ class Register extends Component {
                             <FormHelperText className="remove-margin">{ errors.password }</FormHelperText>
                         </FormControl>
 
-                        <FormControl className={classes.widthBox} error={!!errors.repeatPassword}>
+                        <FormControl className="field-width" error={!!errors.repeatPassword}>
                             <InputLabel htmlFor="repeat-password">Powtórz hasło</InputLabel>
                             <Input
                                 value={values.repeatPassword}
@@ -205,7 +168,7 @@ class Register extends Component {
                         </FormControl>
 
                         <div className="terms-container">
-                            <FormControlLabel className={classes.widthBox} control={
+                            <FormControlLabel className="field-width" control={
                                 <Checkbox
                                     onChange={this.handleCheckbox}
                                     checked={values.terms}
@@ -223,10 +186,10 @@ class Register extends Component {
                             }
                         </div>
 
-                        <div className={classes.buttonDiv}>
+                        <div className="buttons">
                             <Button
                                 onClick={this.onClick}
-                                className={classes.button}
+                                className="button"
                                 variant="contained"
                                 color="primary"
                             >Zarejestruj</Button>
@@ -238,9 +201,5 @@ class Register extends Component {
     }
 }
 
-Register.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Register);
+export default Register;
 

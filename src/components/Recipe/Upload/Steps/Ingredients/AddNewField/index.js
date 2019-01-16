@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
-import {TextField, withStyles} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
 import Select from "@material-ui/core/es/Select/Select";
@@ -11,14 +10,6 @@ import Tooltip from "@material-ui/core/es/Tooltip/Tooltip";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
-
-const styles = theme => ({
-    fab: {
-        position: 'absolute',
-        top: theme.spacing.unit * 2,
-        right: theme.spacing.unit * 3,
-    },
-});
 
 class AddNewField extends Component {
     state = {
@@ -98,15 +89,13 @@ class AddNewField extends Component {
     };
 
     render() {
-        const { classes } = this.props;
-
         return (
             <div>
                 {
                    this.listField()
                 }
                 <Tooltip title="Dodaj kolejny składnik" aria-label="Dodaj kolejny skladnik">
-                    <Fab onClick={this.addNewField} size="small" className={classes.fab} color="primary">
+                    <Fab onClick={this.addNewField} size="small" className="fab-icon" color="primary">
                         <AddIcon />
                     </Fab>
                 </Tooltip>
@@ -115,8 +104,4 @@ class AddNewField extends Component {
     }
 }
 
-AddNewField.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(AddNewField);
+export default AddNewField;

@@ -1,26 +1,9 @@
 import React, { Component } from 'react';
 import '../../upload.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/es/Typography/Typography";
 import Button from "@material-ui/core/es/Button/Button";
 import AddNewField from "./AddNewField";
-
-const styles = theme => ({
-    root: {
-        position: 'relative',
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        marginTop: 15,
-    },
-    fab: {
-        position: 'absolute',
-        top: theme.spacing.unit * 2,
-        right: theme.spacing.unit * 3,
-    },
-});
 
 class UploadStepsIngredients extends Component {
     state = {
@@ -102,11 +85,11 @@ class UploadStepsIngredients extends Component {
     };
 
     render() {
-        const { classes, backStep } = this.props;
+        const { backStep } = this.props;
 
         return (
             <div>
-                <Paper className={classes.root}>
+                <Paper className="upload-box">
                     <Typography color="secondary" variant="h6">
                         Informacje o składnikach
                     </Typography>
@@ -141,8 +124,4 @@ class UploadStepsIngredients extends Component {
     };
 }
 
-UploadStepsIngredients.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(UploadStepsIngredients);
+export default UploadStepsIngredients;

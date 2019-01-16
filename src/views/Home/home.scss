@@ -1,16 +1,28 @@
-.flex-card {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.flex-card > div {
-  @media (min-width: 768px) and (max-width: 1023px) {
-    flex: 1 0 30%;
+.home-container {
+  .flex-card {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
-  @media (min-width: 500px) and (max-width: 650px) {
-    flex: 0 45%;
+  .card {
+    max-width: 320px;
+    margin: 10px;
+
+    .media {
+      height: 0;
+      padding-top: 56.25%; // 16:9
+    }
+  }
+
+  .flex-card > div {
+    @media (min-width: 768px) and (max-width: 1023px) {
+      flex: 1 0 30%;
+    }
+
+    @media (min-width: 500px) and (max-width: 650px) {
+      flex: 0 45%;
+    }
   }
 }

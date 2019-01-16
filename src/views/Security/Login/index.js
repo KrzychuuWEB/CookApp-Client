@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
+import './login.scss';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography/Typography";
 import TextField from "@material-ui/core/TextField/TextField";
@@ -13,38 +12,6 @@ import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
-
-const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        maxWidth: 420,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: '25vh',
-        marginBottom: '50px',
-    },
-
-    container: {
-        width: '90%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    },
-
-    textField: {
-        width: '100%',
-        marginTop: 15,
-    },
-
-    buttonDiv: {
-        width: '95%',
-        marginTop: 40,
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
-});
-
 
 class Login extends Component {
     state = {
@@ -97,32 +64,32 @@ class Login extends Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { login, password, errors } = this.state;
 
         return (
-            <div>
-                <Paper className={classes.root} elevation={1}>
+            <div className="login-container">
+                <Paper className="login-box" elevation={1}>
                     <Typography variant="h6" color="secondary">
                         Zaloguj się!
                     </Typography>
 
                     <form noValidate autoComplete="off">
-                        <div className={classes.container}>
+                        <div className="login-form">
                             <TextField
                                 onChange={this.onChange("login")}
-                                value={this.state.login}
-                                className={classes.textField}
+                                value={login}
+                                className="field-width"
                                 id="login"
                                 label="Login"
                                 name="user_login"
-                                error={!!this.state.errors.login}
-                                helperText={this.state.errors.login}
+                                error={!!errors.login}
+                                helperText={errors.login}
                             />
-                            <FormControl className={classes.textField} error={!!this.state.errors.password}>
+                            <FormControl className="field-width" error={!!errors.password}>
                                 <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                                 <Input
                                     onChange={this.onChange("password")}
-                                    value={this.state.password}
+                                    value={password}
                                     name="user_password"
                                     id="adorment-password"
                                     type={this.state.showPassword ? 'text' : 'password'}
@@ -137,10 +104,10 @@ class Login extends Component {
                                         </InputAdornment>
                                     }
                                 />
-                                <FormHelperText>{this.state.errors.password}</FormHelperText>
+                                <FormHelperText>{errors.password}</FormHelperText>
                             </FormControl>
                         </div>
-                        <div className={classes.buttonDiv}>
+                        <div className="buttons">
                             <Button style={{marginLeft: 20}} component={Link} to="/register" variant="text" color="secondary">Rejestracja</Button>
 
                             <Button
@@ -156,8 +123,4 @@ class Login extends Component {
     }
 }
 
-Login.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Login);
+export default Login;

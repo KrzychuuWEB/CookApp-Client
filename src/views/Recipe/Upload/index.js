@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import './upload.scss';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -9,18 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import UploadStepsInformation from "../../../components/Recipe/Upload/Steps/Information";
 import UploadStepsPhotos from "../../../components/Recipe/Upload/Steps/Photos";
 import UploadStepsIngredients from "../../../components/Recipe/Upload/Steps/Ingredients";
-
-const styles = theme => ({
-    root: {
-        width: '95%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    },
-    instructions: {
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
-    },
-});
 
 function getSteps() {
     return [
@@ -98,12 +85,11 @@ class UploadRecipe extends Component {
     }
 
     render() {
-        const { classes } = this.props;
         const steps = getSteps();
         const { activeStep } = this.state;
 
         return(
-            <div className={classes.root}>
+            <div className="upload-box">
                 <Stepper activeStep={activeStep} alternativeLabel>
                     {steps.map(label => {
                         return (
@@ -117,7 +103,7 @@ class UploadRecipe extends Component {
                 <div>
                     {this.state.activeStep === steps.length ? (
                         <div>
-                            <Typography className={classes.instructions}>Przepis został dodany!</Typography>
+                            <Typography>Przepis został dodany!</Typography>
                             <Button onClick={this.handleReset}>Wyczyść</Button>
                         </div>
                     ) : (
@@ -133,8 +119,4 @@ class UploadRecipe extends Component {
     };
 }
 
-UploadRecipe.propsTypes = {
-  classes: PropTypes.object,
-};
-
-export default withStyles(styles)(UploadRecipe);
+export default UploadRecipe;

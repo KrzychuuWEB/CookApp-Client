@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import './readrecipe.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
@@ -22,18 +20,6 @@ import ExpansionPanelDetails from "@material-ui/core/es/ExpansionPanelDetails/Ex
 import Icon from "@material-ui/core/es/Icon/Icon";
 import Lightbox from "../../../components/Lightbox";
 
-const styles = theme => ({
-    expansion: {
-        width: '100%',
-        marginTop: 20,
-    },
-
-    paper: {
-        padding: 20,
-        marginBottom: 10,
-    },
-});
-
 class ReadRecipe extends Component {
     state = {
         anchorEl: null,
@@ -49,7 +35,6 @@ class ReadRecipe extends Component {
 
     render() {
         const { anchorEl } = this.state;
-        const { classes } = this.props;
 
         return(
             <div className="read-recipe">
@@ -93,7 +78,7 @@ class ReadRecipe extends Component {
                     />
                 </Paper>
 
-                <Paper className={classes.paper}>
+                <Paper className="section-box">
                     <Typography variant="h6" color="secondary">
                         Shrimp and Chorizo Paella
                     </Typography>
@@ -126,7 +111,7 @@ class ReadRecipe extends Component {
                     </div>
                 </Paper>
 
-                <Paper className={classes.paper}>
+                <Paper className="section-box">
                     <Typography variant="h6" color="secondary">
                         Składniki
                     </Typography>
@@ -142,14 +127,14 @@ class ReadRecipe extends Component {
                     </FormGroup>
                 </Paper>
 
-                <Paper className={classes.paper}>
+                <Paper className="section-box">
                     <Typography variant="h6" color="secondary">
                         Przygotowanie krok po kroku
                     </Typography>
 
                     <div className="section-margin">
                         {[1, 2, 3,].map(value => (
-                            <ExpansionPanel className={classes.expansion}>
+                            <ExpansionPanel className="expansion-panel">
                                 <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                                     <Typography>
                                         {value}. Przygotowanie sosu
@@ -166,7 +151,7 @@ class ReadRecipe extends Component {
                     </div>
                 </Paper>
 
-                <Paper className={classes.paper}>
+                <Paper className="section-box">
                     <Typography variant="h6" color="secondary">
                         Zdjęcia
                     </Typography>
@@ -194,8 +179,4 @@ class ReadRecipe extends Component {
     };
 }
 
-ReadRecipe.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(ReadRecipe);
+export default ReadRecipe;

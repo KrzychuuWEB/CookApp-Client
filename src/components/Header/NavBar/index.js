@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -76,7 +76,7 @@ const styles = theme => ({
     },
 });
 
-class NavBar extends React.Component {
+class NavBar extends Component {
     state = {
         left: false,
     };

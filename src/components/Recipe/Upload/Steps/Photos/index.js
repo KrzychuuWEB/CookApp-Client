@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import '../../upload.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/es/Typography";
 import Button from "@material-ui/core/es/Button/Button";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
@@ -12,19 +10,6 @@ import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/es/ListItemIcon/ListItemIcon";
 import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlLabel";
 import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
-
-const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        marginTop: 15,
-    },
-
-    input: {
-        display: 'none',
-    },
-});
 
 class UploadStepsPhotos extends Component {
     state = {
@@ -70,11 +55,11 @@ class UploadStepsPhotos extends Component {
     };
 
     render() {
-        const { classes, backStep } = this.props;
+        const { backStep } = this.props;
 
         return(
             <div>
-                <Paper className={classes.root}>
+                <Paper className="upload-box">
                     <Typography color="secondary" variant="h6">
                         Zdjęcia przepisu
                     </Typography>
@@ -82,12 +67,12 @@ class UploadStepsPhotos extends Component {
                     <div className="upload-recipe">
                         <div className="container-upload-button">
                             <div>
-                                <input multiple accept="image/*" onChange={this.onChange} className={classes.input} id="icon-button-file" type="file" />
+                                <input multiple accept="image/*" onChange={this.onChange} style={{display: 'none'}} id="icon-button-file" type="file" />
                                 <Typography align="center">
                                     Aby dodać zdjęcia kliknij ikonę aparatu (aby dodać więcej niż jedno zdjęcie przytrzymaj CTRL)
 
                                     <label htmlFor="icon-button-file">
-                                        <IconButton color="primary" className={classes.button} component="span">
+                                        <IconButton color="primary" component="span">
                                             <PhotoCamera />
                                         </IconButton>
                                     </label>
@@ -144,8 +129,4 @@ class UploadStepsPhotos extends Component {
     };
 }
 
-UploadStepsPhotos.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(UploadStepsPhotos);
+export default UploadStepsPhotos;

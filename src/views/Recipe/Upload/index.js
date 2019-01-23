@@ -8,11 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import UploadStepsInformation from "../../../components/Recipe/Upload/Steps/Information";
 import UploadStepsPhotos from "../../../components/Recipe/Upload/Steps/Photos";
 import UploadStepsIngredients from "../../../components/Recipe/Upload/Steps/Ingredients";
+import UploadStepByStep from "../../../components/Recipe/Upload/Steps/StepByStep";
 
 function getSteps() {
     return [
         'Informacje o przepisie',
-        'Dodaj zdjęcia przepisu',
+        'Zdjęcia przepisu',
         'Składniki przepisu',
         'Kroki do stworzenia przepisu',
     ];
@@ -20,7 +21,7 @@ function getSteps() {
 
 class UploadRecipe extends Component {
     state = {
-        activeStep: 2,
+        activeStep: 3,
         values: {
             recipe_name: '',
             recipe_description: '',
@@ -77,7 +78,11 @@ class UploadRecipe extends Component {
                 />;
 
             case 3:
-                return '';
+                return <UploadStepByStep
+                    values={this.state.values}
+                    backStep={this.handleBack}
+                    nextStep={this.handleNext}
+                />;
 
             default:
                 return 'Uknown stepIndex';
@@ -89,7 +94,7 @@ class UploadRecipe extends Component {
         const { activeStep } = this.state;
 
         return(
-            <div className="upload-box">
+            <div className="upload-container">
                 <Stepper activeStep={activeStep} alternativeLabel>
                     {steps.map(label => {
                         return (

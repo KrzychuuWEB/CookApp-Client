@@ -13,11 +13,12 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlLabel";
 import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
+import {getJWT} from "../../../helpers/JWT";
 
 class Register extends Component {
     state = {
         values: {
-            login: '',
+            username: '',
             email: '',
             password: '',
             repeatPassword: '',
@@ -49,13 +50,13 @@ class Register extends Component {
     };
 
     validation = () => {
-        let { values } = this.state;
+        let values = this.state.values;
         let errors = {};
         let isError = false;
 
-        if(values.login.length < 1) {
+        if(values.username.length < 1) {
             isError = true;
-            errors.login = "Pole jest wymagane!";
+            errors.username = "Pole jest wymagane!";
         }
 
         if(values.email.length < 1) {
@@ -101,9 +102,38 @@ class Register extends Component {
         let checkError = this.validation();
 
         if(!checkError) {
-            return true;
+            // fetch('http://localhost:8000/register', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json',
+            //         // 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDgzMzk4NTEsImV4cCI6MTU0ODM0MzQ1MSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiQWRtaW5pc3RyYXRvciJ9.P1EMiJNfpg_RcXCk-AgkRrfyVhbXxpdLwDMLhs3kaYDuAPS6TacZfHk8e2X-F9L2Tg5Mfa-NvpVIjKfx6isLwRB1EqB7yB6L4ctcAZpfSz-E4sRDO0XdEflDx2KjKupXoGdyhOcXKwTAp4SezUEaTe7I_x--_QvveSelhgDMywjKsAI2S-hbt-Ur4gFj_XxcmpmZo0DEM7xI_iCY1_X9YC989HeF5fsk8IrHGg-XdLQRgzMF3xSoJhGSUeF2rU8FoZrJebFdcTAQj0bWlFxfrQ3EDBHbx63MbCJ4b-cvId-vlwVeHKQIs8QIwnATsOraIyZtsaBOPH_UMiHgyo2QhbxNVSejctIHOuGrOkcYS5fHtSpZo8HX5lxpe_4l6yxkIyM5ZsUSGpVzAF5SfSQAehc1i5DkwdlvXuce_bRjXgjVHMtb392FsKMkBAVnk0x8Wg-gYqqHnuZpTcWKaAOH48wlVe77lpguWzcmaOAYMOm81voRU8cNCHki7ceQvj1shKljLPqIhoFMYPfpMmZaZL1QQP2K6T0OuXb0U2nTXyd-7Dme19VsyGaYcTZJOHj7Qdluhv5YasaPMnkEBdQ1NVC60ZiABqzgxmIsWrrIbshhctVplozgD6BmVhmNzW1TxipQKb66fqZ-Onx7kS2rnKkwmgQYNJV_pOQWYzinQJc'
+            //     },
+            //     body: JSON.stringify({
+            //         username: this.state.values.username,
+            //         password: this.state.values.password,
+            //     }),
+            // })
+            //     .then(response => response.json())
+            //     .then(response => {
+            //         console.log(response);
+            //     });
+
+            fetch('http://localhost:8000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.state.values.username,
+                })
+            })
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                })
         } else {
-            return false;
+            console.log(getJWT());
         }
     };
 
@@ -119,12 +149,12 @@ class Register extends Component {
 
                     <form className="register-form" noValidate autoComplete="off">
                         <TextField
-                            value={values.login}
+                            value={values.username}
                             className="field-width"
                             label="Login"
-                            onChange={this.onChange("login")}
-                            error={!!errors.login}
-                            helperText={errors.login}
+                            onChange={this.onChange("username")}
+                            error={!!errors.username}
+                            helperText={errors.username}
                         />
                         <TextField
                             value={values.email}

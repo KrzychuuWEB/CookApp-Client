@@ -16,7 +16,7 @@ import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 class Login extends Component {
     state = {
         showPassword: false,
-        login: '',
+        username: '',
         password: '',
         errors: {},
     };
@@ -26,13 +26,13 @@ class Login extends Component {
     };
 
     validation = () => {
-        let { login, password } = this.state;
+        let { username, password } = this.state;
         let errors = {};
         let isError = false;
 
-        if(login.length < 1) {
+        if(username.length < 1) {
             isError = true;
-            errors.login = "Pole jest wymagane!"
+            errors.username = "Pole jest wymagane!"
         }
 
         if(password.length < 1) {
@@ -57,14 +57,29 @@ class Login extends Component {
         let checkError = this.validation();
 
         if(!checkError) {
-            return true;
+            fetch('http://localhost:8000/login_check', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password,
+                })
+            })
+                .then(response => response.json())
+                .then(response => {
+                    localStorage.setItem("tokenJWT", response.token);
+                    console.log(response.token);
+                })
         } else {
             return false;
         }
     };
 
     render() {
-        const { login, password, errors } = this.state;
+        const { username, password, errors } = this.state;
 
         return (
             <div className="login-container">
@@ -76,14 +91,14 @@ class Login extends Component {
                     <form noValidate autoComplete="off">
                         <div className="login-form">
                             <TextField
-                                onChange={this.onChange("login")}
-                                value={login}
+                                onChange={this.onChange("username")}
+                                value={username}
                                 className="field-width"
-                                id="login"
+                                id="username"
                                 label="Login"
                                 name="user_login"
-                                error={!!errors.login}
-                                helperText={errors.login}
+                                error={!!errors.username}
+                                helperText={errors.username}
                             />
                             <FormControl className="field-width" error={!!errors.password}>
                                 <InputLabel htmlFor="adorment-password">Hasło</InputLabel>

@@ -63,7 +63,10 @@ class NewFieldStepByStep extends Component {
 
     addNewStep = () => {
         let lastElement = this.state.fieldsNumber.slice(-1)[0];
-        this.setState({fieldsNumber: [...this.state.fieldsNumber, lastElement + 1] });
+
+        this.state.fieldsNumber.length > 0 ?
+            this.setState({fieldsNumber: [...this.state.fieldsNumber, lastElement + 1] }) :
+            this.setState({fieldsNumber: [...this.state.fieldsNumber, 1] })
     };
 
     render() {

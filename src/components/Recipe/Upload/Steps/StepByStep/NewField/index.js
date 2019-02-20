@@ -11,33 +11,37 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 
 class NewFieldStepByStep extends Component {
-    state = {
-        fieldsNumber: [1],
+    addNewStep = () => {
+        let lastElement = this.props.values.length;
+
+        if(lastElement > 0) {
+            this.props.setDefaultValues(lastElement+1);
+        } else {
+            this.props.setDefaultValues(1);
+        }
     };
 
     stepDelete = index => e => {
-        e.preventDefault();
-        const fieldsNumber = this.state.fieldsNumber;
-        fieldsNumber.splice(fieldsNumber.indexOf(index), 1);
-
-        this.setState({fieldsNumber})
+        this.props.deleteStep(index);
     };
 
     stepList = () => {
-        const fieldsNumber = this.state.fieldsNumber;
+        const { onChange, values } = this.props;
 
-        const list = fieldsNumber.map((key, i) =>
-            <div key={key}>
+        const list = values.map((item) =>
+            <div key={item.step}>
                 <div>
                     <FormControl className="field-width-with-delete-icon">
                         <InputLabel htmlFor="adorment-name">Nazwa kroku</InputLabel>
                         <Input
+                            value={item.name}
+                            onChange={onChange(item.step, "name")}
                             id="adorment-name"
-                            startAdornment={<InputAdornment position="start">{ (i + 1) + "." }</InputAdornment>}
+                            startAdornment={<InputAdornment position="start">{ item.step + "." }</InputAdornment>}
                         />
                     </FormControl>
 
-                    <IconButton onClick={this.stepDelete(key)}>
+                    <IconButton onClick={this.stepDelete(item.step)}>
                         <DeleteIcon />
                     </IconButton>
                 </div>
@@ -48,6 +52,8 @@ class NewFieldStepByStep extends Component {
                     rows="4"
                     margin="normal"
                     className="step-input"
+                    value={item.description}
+                    onChange={onChange(item.step, "description")}
                 />
 
                 <span className="step-line" />
@@ -61,17 +67,7 @@ class NewFieldStepByStep extends Component {
         );
     };
 
-    addNewStep = () => {
-        let lastElement = this.state.fieldsNumber.slice(-1)[0];
-
-        this.state.fieldsNumber.length > 0 ?
-            this.setState({fieldsNumber: [...this.state.fieldsNumber, lastElement + 1] }) :
-            this.setState({fieldsNumber: [...this.state.fieldsNumber, 1] })
-    };
-
     render() {
-        console.log(this.state.fieldsNumber);
-
         return (
             <div>
                 <Tooltip title="Dodaj nowy krok" aria-label="Dodaj nowy krok">

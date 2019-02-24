@@ -13,30 +13,32 @@ import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 
 class UploadStepsPhotos extends Component {
     state = {
-        files: {},
         skipPhoto: false,
-        error: false,
+        errors: {},
     };
 
     valid = () => {
-        const file = this.state.files;
-        let isError = false;
+        const photos = this.props.values.photos;
+        let setErrors = {};
+        let isValid = true;
 
-        for(let i = 0; i < file.length; i++) {
-            let fileName = file[i].name;
+        for(let i = 0; i < photos.length; i++) {
+            let fileName = photos[i].name;
             let fileExtension = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
 
-            if (fileExtension !== 'jpeg' && fileExtension !== 'psng' && fileExtension !== 'jpg') {
-                isError = "Obługujemy tylko pliki z rozszerzeniem .jpg, .png, .jpeg!";
+            if (fileExtension !== 'jpeg' && fileExtension !== 'png' && fileExtension !== 'jpg') {
+                setErrors.extension = "Obługujemy tylko pliki z rozszerzeniem .jpg, .png, .jpeg!";
+                isValid = false;
             }
         }
 
-        this.setState({error: isError});
-        return isError;
-    };
+        if(!photos.length > 0) {
+            setErrors.empty = "Musisz wybrać przynajmniej jedno zdjęcie, jeżeli nie masz zdjęcia przepisu zaznacz \"Nie mam zdjęcia przepisu\"";
+            isValid = false;
+        }
 
-    onChange = e => {
-        this.setState({files: e.target.files, error: false});
+        this.setState({errors: setErrors});
+        return isValid;
     };
 
     onSubmit = () => {
@@ -49,13 +51,13 @@ class UploadStepsPhotos extends Component {
             if(isValid) {
                 this.props.nextStep();
             } else {
-                this.setState({error: "Musisz wybrać przynajmniej jedno zdjęcie, jeżeli nie masz zdjęcia przepisu zaznacz checkboxa na dole"})
+                return false;
             }
         }
     };
 
     render() {
-        const { backStep } = this.props;
+        const { backStep, values, handleChange } = this.props;
 
         return(
             <div>
@@ -67,7 +69,7 @@ class UploadStepsPhotos extends Component {
                     <div className="upload-recipe">
                         <div className="container-upload-button">
                             <div>
-                                <input multiple accept="image/*" onChange={this.onChange} style={{display: 'none'}} id="icon-button-file" type="file" />
+                                <input multiple accept="image/*" onChange={handleChange("photo")} style={{display: 'none'}} id="icon-button-file" type="file" />
                                 <Typography align="center">
                                     Aby dodać zdjęcia kliknij ikonę aparatu (aby dodać więcej niż jedno zdjęcie przytrzymaj CTRL)
 
@@ -78,9 +80,10 @@ class UploadStepsPhotos extends Component {
                                     </label>
                                 </Typography>
 
-                                { this.state.error ?
+                                { this.state.errors ?
                                     <Typography color="error" align="center">
-                                        { this.state.error }
+                                        { this.state.errors.extension }
+                                        { this.state.errors.empty }
                                     </Typography>
                                     : false
                                 }
@@ -89,18 +92,18 @@ class UploadStepsPhotos extends Component {
 
                         <List>
                             {
-                                Object.keys(this.state.files).map((item) => (
+                                Object.keys(values.photos).map((item) => (
                                     <ListItem key={item}>
                                         <ListItemIcon>
                                             <Photo />
                                         </ListItemIcon>
 
-                                        {this.state.files[item].name}
+                                        {values.photos[item].name}
                                     </ListItem>
                                 ))
                             }
 
-                            { this.state.files.length > 0 ?
+                            { values.photos.length > 0 ?
                                 <Typography variant="caption" align="center">
                                     Aby ponownie wybrać zdjęcia kliknij ikonę aparatu
                                 </Typography>

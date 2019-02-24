@@ -19,45 +19,45 @@ class UploadStepsInformation extends Component {
     validation = () => {
         let errors = { ...this.state };
         let { values } = this.props;
-        let isError = false;
+        let isValid = true;
 
         if(values.recipe_name.length < 1) {
-            isError = true;
+            isValid = false;
             errors.recipe_name = "Pole jest wymagane!"
         }
 
         if(values.recipe_description.length < 1) {
-            isError = true;
+            isValid = false;
             errors.recipe_description = "Pole jest wymagane!"
         } else if(values.recipe_description.length > 250) {
-            isError = true;
+            isValid = false;
             errors.recipe_description = "Pole nie może zawierać więcej niż 250 znaków!!"
         }
 
         if(values.recipe_level < 1) {
-            isError = true;
+            isValid = false;
             errors.recipe_level = "Pole jest wymagane!"
         } else if(!Number.isInteger(parseInt(values.recipe_level))) {
-            isError = true;
+            isValid = false;
             errors.recipe_level = "Zawartość musi być liczbowa!"
         }
 
         if(values.recipe_time < 1) {
-            isError = true;
+            isValid = false;
             errors.recipe_time = "Pole jest wymagane!"
         } else if(!Number.isInteger(parseInt(values.recipe_time))) {
-            isError = true;
+            isValid = false;
             errors.recipe_time = "Wpisz tylko liczby!"
         }
 
         this.setState({errors});
-        return isError;
+        return isValid;
     };
 
     onClick = () => {
         let checkError = this.validation();
 
-        if(!checkError) {
+        if(checkError) {
             this.props.nextStep();
         } else {
             return false;

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import UploadStepsInformation from "../../../components/Recipe/Upload/Steps/Information";
 import UploadStepsPhotos from "../../../components/Recipe/Upload/Steps/Photos";
 import UploadStepsIngredients from "../../../components/Recipe/Upload/Steps/Ingredients";
-import UploadStepByStep from "../../../components/Recipe/Upload/Steps/StepByStep";
+import UploadStepByStep from "../../../components/Recipe/Upload/Steps/Steps";
 
 function getSteps() {
     return [
@@ -21,15 +21,77 @@ function getSteps() {
 
 class UploadRecipe extends Component {
     state = {
-        activeStep: 3,
+        activeStep: 0,
         values: {
             recipe_name: '',
             recipe_description: '',
             recipe_level: '',
             recipe_time: '',
             photos: {},
-            ingredients: {},
+            ingredients: [
+                {
+                    name: '',
+                    value: '',
+                    unit: 1,
+                    ingredient: 1,
+                },
+            ],
+            steps: [
+                {
+                    name: '',
+                    description: '',
+                    step: 1,
+                },
+            ],
         },
+    };
+
+    setDefaultValues = (index, stepName) => {
+        const stepsValue = {
+            name: '',
+            description: '',
+            step: index,
+        };
+
+        const ingredientsValue = {
+            name: '',
+            value: '',
+            unit: 1,
+            ingredient: index,
+        };
+
+        let newValues = [
+            ...this.state.values[stepName],
+            stepName === "steps" ? stepsValue : ingredientsValue
+        ];
+
+        this.setState({values: {...this.state.values, [stepName]: newValues}});
+    };
+
+    deleteValue = (index, stepName) => {
+        let deleteValue = [...this.state.values[stepName]];
+
+        deleteValue.splice(deleteValue.indexOf(index), 1);
+
+        this.setState({values: {...this.state.values, [stepName]: deleteValue}});
+    };
+
+    onChangeValue = (index, input, stepName) => e => {
+        let inputValue = e.target.value;
+        let indexName = stepName === "steps" ? "step" : "ingredient";
+
+        this.setState(state => ({
+            values: {
+                ...this.state.values,
+                [stepName]: state.values[stepName].map(item => {
+                    if (item[indexName] === index) {
+                        return {...item, [input]: inputValue};
+                    }
+
+                    return item;
+                })
+            }
+        }));
     };
 
     handleNext = () => {
@@ -51,7 +113,10 @@ class UploadRecipe extends Component {
     };
 
     handleChange = input => e => {
-        this.setState({values: {...this.state.values, [input]: e.target.value }});
+        input === "photo" ?
+            this.setState({values: {...this.state.values, photos: e.target.files}})
+            :
+            this.setState({values: {...this.state.values, [input]: e.target.value}});
     };
 
     getStepContent(stepIndex) {
@@ -66,6 +131,7 @@ class UploadRecipe extends Component {
             case 1:
                 return <UploadStepsPhotos
                     values={this.state.values}
+                    handleChange={this.handleChange}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
                 />;
@@ -73,6 +139,9 @@ class UploadRecipe extends Component {
             case 2:
                 return <UploadStepsIngredients
                     values={this.state.values}
+                    setDefaultValues={this.setDefaultValues}
+                    deleteValue={this.deleteValue}
+                    onChange={this.onChangeValue}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
                 />;
@@ -80,12 +149,15 @@ class UploadRecipe extends Component {
             case 3:
                 return <UploadStepByStep
                     values={this.state.values}
+                    setDefaultValues={this.setDefaultValues}
+                    deleteValue={this.deleteValue}
+                    onChange={this.onChangeValue}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
                 />;
 
             default:
-                return 'Uknown stepIndex';
+                return 'Unknown stepIndex';
         }
     }
 
@@ -95,7 +167,7 @@ class UploadRecipe extends Component {
 
         return(
             <div className="upload-container">
-                <Stepper activeStep={activeStep} alternativeLabel>
+                <Stepper className="steppers-box-shadow" activeStep={activeStep} alternativeLabel>
                     {steps.map(label => {
                         return (
                             <Step key={label}>

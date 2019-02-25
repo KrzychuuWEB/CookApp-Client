@@ -1,0 +1,48 @@
+.read-recipe-tab {
+  h6 {
+    margin-top: 20px;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+
+    @media (max-width: 700px) {
+      display: block;
+    }
+    
+    .ingredients {
+      width: 50%;
+    }
+
+    .steps {
+      width: 50%;
+
+      @media (max-width: 700px) {
+        width: 100%;
+      }
+
+      h6 {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .flex-gallery {
+    display: flex;
+
+    .recipe-gallery {
+      margin-top: 10px;
+      margin-right: 15px;
+      width: 250px;
+
+      .img-style {
+        width: 100%;
+        min-height: auto;
+        border-radius: 4px;
+      }
+    }
+  }
+}

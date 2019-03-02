@@ -1,3 +1,4 @@
-const serverUrl = "http://localhost:8000";
+const serverUrl = "http://localhost:8000/api/v1";
 
-export const registerApiUrl = `${serverUrl}/register`;
+export const loginApiUrl = `${serverUrl}/login_check`;
+export const registerApiUrl = `${serverUrl}/users`;

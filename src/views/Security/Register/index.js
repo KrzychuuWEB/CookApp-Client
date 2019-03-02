@@ -14,6 +14,8 @@ import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlL
 import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import * as registerApi from '../../../helpers/api/registerApi';
+import {LinearProgress} from "@material-ui/core";
+import {getJWT} from "../../../helpers/api/token";
 
 class Register extends Component {
     state = {
@@ -26,6 +28,7 @@ class Register extends Component {
         },
         showPassword: false,
         errors: {},
+        processing: false,
     };
 
     checkEmail = email => {
@@ -52,72 +55,93 @@ class Register extends Component {
     validation = () => {
         let values = this.state.values;
         let errors = {};
-        let isError = false;
+        let isValid = true;
 
         if(values.username.length < 1) {
-            isError = true;
+            isValid = false;
             errors.username = "Pole jest wymagane!";
         }
 
         if(values.email.length < 1) {
-            isError = true;
+            isValid = false;
             errors.email = "Pole jest wymagane!";
         } else if(!this.checkEmail(values.email)) {
-            isError = true;
+            isValid = false;
             errors.email = "Email jest nieprawidłowy!";
         }
 
         if(values.plainPassword.length < 1) {
-            isError = true;
+            isValid = false;
             errors.plainPassword = "Pole jest wymagane!"
         } else if(values.plainPassword.length < 8) {
-            isError = true;
+            isValid = false;
             errors.plainPassword = "Hasło musi mieć minimum 8 znaków!"
         }
 
         if(values.repeatPassword.length < 1) {
-            isError = true;
+            isValid = false;
             errors.repeatPassword = "Pole jest wymagane!";
         } else if(values.repeatPassword.length < 8) {
-            isError = true;
+            isValid = false;
             errors.repeatPassword = "Hasło musi mieć minimum 8 znaków!"
         }
 
         if (values.repeatPassword !== values.plainPassword) {
-            isError = true;
+            isValid = false;
             errors.plainPassword = "Hasła nie są takie same!";
             errors.repeatPassword = "Hasła nie są takie same!";
         }
 
         if(!values.terms) {
-            isError = true;
+            isValid = false;
             errors.terms = "Regulamin jest wymagany!"
         }
 
         this.setState({errors: errors});
-        return isError;
+        return isValid;
     };
 
     onClick = async () => {
-        // let checkError = this.validation();
-        let checkError = false;
+        let valid = this.validation();
+        // let checkError = false;
 
-        if(!checkError) {
+        if(valid) {
             const { username, plainPassword, email } = this.state.values;
-            let data = {username, plainPassword, email};
 
-            await registerApi.create(data);
+            this.setState({processing: true});
+
+            await registerApi.create(
+                {
+                    username,
+                    plainPassword,
+                    email
+                }
+            )
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    const fields = error.response.data.error_fields;
+                    this.setState({errors: fields})
+                })
+                .finally(() => {
+                    this.setState({processing: false});
+                });
         } else {
             return false;
         }
     };
 
     render() {
-        const { errors, values } = this.state;
+        const { errors, values, processing } = this.state;
 
         return (
             <div className="register-container">
-                <Paper className="register-box" elevation={1}>
+                <Paper className="register-box">
+                    {
+                        processing && <LinearProgress className="progress-bar" color="secondary" />
+                    }
+
                     <Typography variant="h6" color="secondary">
                         Zarejestruj się!
                     </Typography>

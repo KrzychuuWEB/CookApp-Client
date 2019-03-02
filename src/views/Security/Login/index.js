@@ -12,13 +12,19 @@ import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
+import {LinearProgress} from "@material-ui/core";
+import * as loginApi from '../../../helpers/api/loginApi';
+import {getJWT} from "../../../helpers/api/token";
 
 class Login extends Component {
     state = {
+        values: {
+            username: '',
+            password: '',
+        },
         showPassword: false,
-        username: '',
-        password: '',
         errors: {},
+        processing: false,
     };
 
     handleClickShowPassword = () => {
@@ -26,52 +32,60 @@ class Login extends Component {
     };
 
     validation = () => {
-        let { username, password } = this.state;
+        let { username, password } = this.state.values;
         let errors = {};
-        let isError = false;
+        let isValid = true;
 
         if(username.length < 1) {
-            isError = true;
+            isValid = false;
             errors.username = "Pole jest wymagane!"
         }
 
         if(password.length < 1) {
-            isError = true;
+            isValid = false;
             errors.password = "Pole jest wymagane!"
         } else if(password.length < 8) {
-            isError = true;
+            isValid = false;
             errors.password = "Hasło musi mieć minimum 8 znaków!"
         }
 
         this.setState({errors: errors});
-        return isError;
+        return isValid;
     };
 
     onChange = input => e => {
-        this.setState({
-            [input]: e.target.value,
-        })
+        this.setState({values: {...this.state.values, [input]: e.target.value}})
     };
 
-    onClick = () => {
-        let checkError = this.validation();
+    onClick = async () => {
+        let valid = this.validation();
 
-        if(!checkError) {
-            fetch('http://localhost:8000/login_check', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: this.state.username,
-                    password: this.state.password,
-                })
-            })
-                .then(response => response.json())
+        if(valid) {
+            this.setState({processing: true});
+
+            const data = this.state.values;
+
+            await loginApi.login(data)
                 .then(response => {
-                    localStorage.setItem("tokenJWT", response.token);
-                    console.log(response.token);
+                    // localStorage.setItem("tokenJWT", response.data.token);
+
+                    if(response.data.token === getJWT()) {
+                        console.log(true);
+                    } else {
+                        console.log(false);
+                    }
+
+                })
+                .catch(() => {
+                    this.setState({
+                        errors: {
+                            username: "Nieprawidłowy login lub hasło!",
+                            password: "Nieprawidłowy login lub hasło!",
+                        }
+                    })
+                })
+                .finally(() => {
+                    this.setState({processing: false});
                 })
         } else {
             return false;
@@ -79,11 +93,15 @@ class Login extends Component {
     };
 
     render() {
-        const { username, password, errors } = this.state;
+        const { values, errors, processing } = this.state;
 
         return (
             <div className="login-container">
-                <Paper className="login-box" elevation={1}>
+                <Paper className="login-box">
+                    {
+                        processing && <LinearProgress className="progress-bar" color="secondary" />
+                    }
+
                     <Typography variant="h6" color="secondary">
                         Zaloguj się!
                     </Typography>
@@ -92,7 +110,7 @@ class Login extends Component {
                         <div className="login-form">
                             <TextField
                                 onChange={this.onChange("username")}
-                                value={username}
+                                value={values.username}
                                 className="field-width"
                                 id="username"
                                 label="Login"
@@ -104,7 +122,7 @@ class Login extends Component {
                                 <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                                 <Input
                                     onChange={this.onChange("password")}
-                                    value={password}
+                                    value={values.password}
                                     name="user_password"
                                     id="adorment-password"
                                     type={this.state.showPassword ? 'text' : 'password'}

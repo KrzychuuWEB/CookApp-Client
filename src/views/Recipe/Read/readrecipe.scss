@@ -1,63 +1,8 @@
 .read-recipe {
-  .section-box {
-    padding: 20px;
-    margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
 
-    .expansion-panel {
-      width: 100%;
-      margin-top: 20px;
-    }
-  }
-
-  .paper-margin-read-recipe {
-    padding: 10px 0 10px 0;
-    margin-top: 90px;
-    margin-bottom: 10px;
-  }
-
-  .section-margin {
-    padding: 0 15px;
-  }
-
-  .margin-section-heading {
-    margin-top: 15px;
-
-    .flex-icon-info {
-      display: flex;
-      align-items: center;
-
-      .icon-center-text {
-        margin-right: 20px;
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-
-        p {
-          margin-top: 2px;
-          margin-left: 5px;
-        }
-      }
-    }
-  }
-
-  .gallery-flex-read-recipe {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-
-    .photo-read-recipe {
-      width: 200px;
-      margin: 5px 8px;
-
-      .img-style {
-        width: 100%;
-        min-height: auto;
-        border-radius: 4px;
-      }
-    }
-  }
-
-  .user-link {
-    text-decoration: none;
+  .paper {
+    padding: 15px 20px;
   }
 }

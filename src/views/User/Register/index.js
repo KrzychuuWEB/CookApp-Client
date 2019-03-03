@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import './register.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography/Typography";
@@ -15,7 +16,6 @@ import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import * as registerApi from '../../../helpers/api/registerApi';
 import {LinearProgress} from "@material-ui/core";
-import {getJWT} from "../../../helpers/api/token";
 
 class Register extends Component {
     state = {
@@ -118,7 +118,9 @@ class Register extends Component {
                 }
             )
                 .then(response => {
-                    console.log(response.data);
+                    setTimeout(() => {
+                        this.props.history.push("/login");
+                    }, 500);
                 })
                 .catch(error => {
                     const fields = error.response.data.error_fields;
@@ -230,5 +232,5 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default withRouter(Register);
 

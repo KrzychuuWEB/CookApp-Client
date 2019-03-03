@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './login.scss';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography/Typography";
 import TextField from "@material-ui/core/TextField/TextField";
@@ -14,7 +14,10 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import {LinearProgress} from "@material-ui/core";
 import * as loginApi from '../../../helpers/api/loginApi';
-import {getJWT} from "../../../helpers/api/token";
+import {
+    setUser,
+    setUserToken
+} from "../../../helpers/storage/user.storage";
 
 class Login extends Component {
     state = {
@@ -67,14 +70,15 @@ class Login extends Component {
 
             await loginApi.login(data)
                 .then(response => {
-                    // localStorage.setItem("tokenJWT", response.data.token);
+                    const token = response.data.token;
+                    const { from } = this.props.location.state || { from: { pathname: "/" } };
 
-                    if(response.data.token === getJWT()) {
-                        console.log(true);
-                    } else {
-                        console.log(false);
-                    }
+                    setUserToken(token);
+                    setUser(token);
 
+                    setTimeout(() => {
+                        this.props.history.push(from.pathname);
+                    }, 200);
                 })
                 .catch(() => {
                     this.setState({
@@ -156,4 +160,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);

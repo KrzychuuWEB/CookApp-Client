@@ -13,6 +13,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from "@material-ui/core/es/Button/Button";
 import Drawer from "@material-ui/core/es/Drawer/Drawer";
 import LeftMenuList from "../LeftMenuList";
+import {getUser} from "../../../helpers/storage/user.storage";
+import UserAvatar from "../../Avatar";
+import {Menu, MenuItem} from "@material-ui/core";
 
 const styles = theme => ({
     list: {
@@ -79,6 +82,7 @@ const styles = theme => ({
 class NavBar extends Component {
     state = {
         left: false,
+        anchorEl: null,
     };
 
     toggleDrawer = (side, open) => () => {
@@ -87,8 +91,18 @@ class NavBar extends Component {
         });
     };
 
+    openUserMenu = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    closeUserMenu = () => {
+        this.setState({ anchorEl: null });
+    };
+
     render() {
         const { classes } = this.props;
+        const { anchorEl } = this.state;
+
         return (
             <div className={classes.root}>
                 <AppBar position="fixed">
@@ -112,7 +126,38 @@ class NavBar extends Component {
                             />
                         </div>
                         <div className={classes.grow} />
-                        <Button color="inherit" component={Link} to="/login">Zaloguj</Button>
+                        {
+                            !getUser()
+                                ? <Button color="inherit" component={Link} to="/login">Zaloguj</Button>
+                                : <div>
+                                    <IconButton
+                                        aria-owns={anchorEl ? 'simple-menu' : undefined}
+                                        aria-haspopup="true"
+                                        onClick={this.openUserMenu}
+                                    >
+                                        <UserAvatar
+                                            username={getUser().username}
+                                            url="https://pngimage.net/wp-content/uploads/2018/05/avatar-perfil-png-1.png"
+                                        />
+                                    </IconButton>
+
+                                    <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        open={Boolean(anchorEl)}
+                                        onClose={this.closeUserMenu}
+                                    >
+                                        <MenuItem onClick={this.closeUserMenu}>Profil</MenuItem>
+                                        <MenuItem
+                                            onClick={this.closeUserMenu}
+                                            component={Link}
+                                            to="/logout"
+                                        >
+                                            Wyloguj
+                                        </MenuItem>
+                                    </Menu>
+                                </div>
+                        }
                     </Toolbar>
                 </AppBar>
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './login.scss';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography/Typography";
 import TextField from "@material-ui/core/TextField/TextField";
@@ -12,13 +12,22 @@ import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
+import {LinearProgress} from "@material-ui/core";
+import * as loginApi from '../../../helpers/api/loginApi';
+import {
+    setUser,
+    setUserToken
+} from "../../../helpers/storage/user.storage";
 
 class Login extends Component {
     state = {
+        values: {
+            username: '',
+            password: '',
+        },
         showPassword: false,
-        login: '',
-        password: '',
         errors: {},
+        processing: false,
     };
 
     handleClickShowPassword = () => {
@@ -26,49 +35,77 @@ class Login extends Component {
     };
 
     validation = () => {
-        let { login, password } = this.state;
+        let { username, password } = this.state.values;
         let errors = {};
-        let isError = false;
+        let isValid = true;
 
-        if(login.length < 1) {
-            isError = true;
-            errors.login = "Pole jest wymagane!"
+        if(username.length < 1) {
+            isValid = false;
+            errors.username = "Pole jest wymagane!"
         }
 
         if(password.length < 1) {
-            isError = true;
+            isValid = false;
             errors.password = "Pole jest wymagane!"
         } else if(password.length < 8) {
-            isError = true;
+            isValid = false;
             errors.password = "Hasło musi mieć minimum 8 znaków!"
         }
 
         this.setState({errors: errors});
-        return isError;
+        return isValid;
     };
 
     onChange = input => e => {
-        this.setState({
-            [input]: e.target.value,
-        })
+        this.setState({values: {...this.state.values, [input]: e.target.value}})
     };
 
-    onClick = () => {
-        let checkError = this.validation();
+    onClick = async () => {
+        let valid = this.validation();
 
-        if(!checkError) {
-            return true;
+        if(valid) {
+            this.setState({processing: true});
+
+            const data = this.state.values;
+
+            await loginApi.login(data)
+                .then(response => {
+                    const token = response.data.token;
+                    const { from } = this.props.location.state || { from: { pathname: "/" } };
+
+                    setUserToken(token);
+                    setUser(token);
+
+                    setTimeout(() => {
+                        this.props.history.push(from.pathname);
+                    }, 200);
+                })
+                .catch(() => {
+                    this.setState({
+                        errors: {
+                            username: "Nieprawidłowy login lub hasło!",
+                            password: "Nieprawidłowy login lub hasło!",
+                        }
+                    })
+                })
+                .finally(() => {
+                    this.setState({processing: false});
+                })
         } else {
             return false;
         }
     };
 
     render() {
-        const { login, password, errors } = this.state;
+        const { values, errors, processing } = this.state;
 
         return (
             <div className="login-container">
-                <Paper className="login-box" elevation={1}>
+                <Paper className="login-box">
+                    {
+                        processing && <LinearProgress className="progress-bar" color="secondary" />
+                    }
+
                     <Typography variant="h6" color="secondary">
                         Zaloguj się!
                     </Typography>
@@ -76,20 +113,20 @@ class Login extends Component {
                     <form noValidate autoComplete="off">
                         <div className="login-form">
                             <TextField
-                                onChange={this.onChange("login")}
-                                value={login}
+                                onChange={this.onChange("username")}
+                                value={values.username}
                                 className="field-width"
-                                id="login"
+                                id="username"
                                 label="Login"
                                 name="user_login"
-                                error={!!errors.login}
-                                helperText={errors.login}
+                                error={!!errors.username}
+                                helperText={errors.username}
                             />
                             <FormControl className="field-width" error={!!errors.password}>
                                 <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                                 <Input
                                     onChange={this.onChange("password")}
-                                    value={password}
+                                    value={values.password}
                                     name="user_password"
                                     id="adorment-password"
                                     type={this.state.showPassword ? 'text' : 'password'}
@@ -123,4 +160,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);

@@ -29,7 +29,7 @@ class Home extends Component {
 
                 <div className="flex-card">
                     {[0, 1, 2, 3, 4].map(value => (
-                        <Card className="card">
+                        <Card className="card" key={value}>
                             <CardHeader
                                 avatar={
                                     <Avatar aria-label="Recipe">

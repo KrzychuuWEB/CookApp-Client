@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import './register.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography/Typography";
@@ -13,18 +14,21 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlLabel";
 import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
+import * as registerApi from '../../../helpers/api/registerApi';
+import {LinearProgress} from "@material-ui/core";
 
 class Register extends Component {
     state = {
         values: {
-            login: '',
+            username: '',
             email: '',
-            password: '',
+            plainPassword: '',
             repeatPassword: '',
             terms: false,
         },
         showPassword: false,
         errors: {},
+        processing: false,
     };
 
     checkEmail = email => {
@@ -49,82 +53,109 @@ class Register extends Component {
     };
 
     validation = () => {
-        let { values } = this.state;
+        let values = this.state.values;
         let errors = {};
-        let isError = false;
+        let isValid = true;
 
-        if(values.login.length < 1) {
-            isError = true;
-            errors.login = "Pole jest wymagane!";
+        if(values.username.length < 1) {
+            isValid = false;
+            errors.username = "Pole jest wymagane!";
         }
 
         if(values.email.length < 1) {
-            isError = true;
+            isValid = false;
             errors.email = "Pole jest wymagane!";
         } else if(!this.checkEmail(values.email)) {
-            isError = true;
+            isValid = false;
             errors.email = "Email jest nieprawidłowy!";
         }
 
-        if(values.password.length < 1) {
-            isError = true;
-            errors.password = "Pole jest wymagane!"
-        } else if(values.password.length < 8) {
-            isError = true;
-            errors.password = "Hasło musi mieć minimum 8 znaków!"
+        if(values.plainPassword.length < 1) {
+            isValid = false;
+            errors.plainPassword = "Pole jest wymagane!"
+        } else if(values.plainPassword.length < 8) {
+            isValid = false;
+            errors.plainPassword = "Hasło musi mieć minimum 8 znaków!"
         }
 
         if(values.repeatPassword.length < 1) {
-            isError = true;
+            isValid = false;
             errors.repeatPassword = "Pole jest wymagane!";
         } else if(values.repeatPassword.length < 8) {
-            isError = true;
+            isValid = false;
             errors.repeatPassword = "Hasło musi mieć minimum 8 znaków!"
         }
 
-        if (values.repeatPassword !== values.password) {
-            isError = true;
-            errors.password = "Hasła nie są takie same!";
+        if (values.repeatPassword !== values.plainPassword) {
+            isValid = false;
+            errors.plainPassword = "Hasła nie są takie same!";
             errors.repeatPassword = "Hasła nie są takie same!";
         }
 
         if(!values.terms) {
-            isError = true;
+            isValid = false;
             errors.terms = "Regulamin jest wymagany!"
         }
 
         this.setState({errors: errors});
-        return isError;
+        return isValid;
     };
 
-    onClick = () => {
-        let checkError = this.validation();
+    onClick = async () => {
+        let valid = this.validation();
+        // let checkError = false;
 
-        if(!checkError) {
-            return true;
+        if(valid) {
+            const { username, plainPassword, email } = this.state.values;
+
+            this.setState({processing: true});
+
+            await registerApi.create(
+                {
+                    username,
+                    plainPassword,
+                    email
+                }
+            )
+                .then(response => {
+                    setTimeout(() => {
+                        this.props.history.push("/login");
+                    }, 500);
+                })
+                .catch(error => {
+                    const fields = error.response.data.error_fields;
+                    this.setState({errors: fields})
+                })
+                .finally(() => {
+                    this.setState({processing: false});
+                });
         } else {
             return false;
         }
     };
 
     render() {
-        const { errors, values } = this.state;
+        const { errors, values, processing } = this.state;
 
         return (
             <div className="register-container">
-                <Paper className="register-box" elevation={1}>
+                <Paper className="register-box">
+                    {
+                        processing && <LinearProgress className="progress-bar" color="secondary" />
+                    }
+
                     <Typography variant="h6" color="secondary">
                         Zarejestruj się!
                     </Typography>
 
                     <form className="register-form" noValidate autoComplete="off">
                         <TextField
-                            value={values.login}
+                            value={values.username}
                             className="field-width"
                             label="Login"
-                            onChange={this.onChange("login")}
-                            error={!!errors.login}
-                            helperText={errors.login}
+                            onChange={this.onChange("username")}
+                            error={!!errors.username}
+                            helperText={errors.username}
                         />
                         <TextField
                             value={values.email}
@@ -135,11 +166,11 @@ class Register extends Component {
                             helperText={errors.email}
                         />
 
-                        <FormControl className="field-width" error={!!errors.password}>
+                        <FormControl className="field-width" error={!!errors.plainPassword}>
                             <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                             <Input
-                                value={values.password}
-                                onChange={this.onChange("password")}
+                                value={values.plainPassword}
+                                onChange={this.onChange("plainPassword")}
                                 id="adorment-password"
                                 type={this.state.showPassword ? 'text' : 'password'}
                                 endAdornment={
@@ -153,7 +184,7 @@ class Register extends Component {
                                     </InputAdornment>
                                 }
                             />
-                            <FormHelperText className="remove-margin">{ errors.password }</FormHelperText>
+                            <FormHelperText className="remove-margin">{ errors.plainPassword }</FormHelperText>
                         </FormControl>
 
                         <FormControl className="field-width" error={!!errors.repeatPassword}>
@@ -201,5 +232,5 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default withRouter(Register);
 

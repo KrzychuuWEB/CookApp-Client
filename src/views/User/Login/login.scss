@@ -1,8 +1,18 @@
 .login-container {
   .login-box {
+    position: relative;
     padding: 20px;
     max-width: 420px;
     margin: 25vh auto 50px auto;
+
+    .progress-bar {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
   }
 
   .login-form {

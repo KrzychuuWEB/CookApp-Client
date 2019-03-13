@@ -10,13 +10,6 @@
       padding: 0 5px;
     }
 
-    .container-upload-button {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px dashed silver;
-      width: 100%;
-    }
-
     .center-field {
       margin-left: auto;
       margin-right: auto;
@@ -24,71 +17,6 @@
 
       > div {
         margin-bottom: 20px;
-      }
-    }
-
-    .information-field {
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    .fab-icon {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-
-    .ingredientsInput {
-      width: 55%;
-      margin-right: 10px;
-
-      @media (max-width: 480px)  {
-        width: 41%;
-        margin-right: 3px;
-      }
-    }
-
-    .valueInput {
-      width: 20%;
-    }
-
-    .unitInput {
-      width: 15%;
-      @media (max-width: 480px)  {
-        width: 20%;
-      }
-    }
-
-    .stepbystep-field-container {
-      padding-top: 10px;
-
-      .step-input {
-        width: 100%;
-      }
-
-      .step-line {
-        width: 90%;
-        margin: 20px auto;
-        height: 2px;
-        background-color: #f1f1f1;
-        border-radius: 100%;
-        display: block;
-      }
-
-      .field-width-with-delete-icon {
-        width: 92%;
-
-        @media (max-width: 740px) and (min-width: 610px) {
-          width: 90%
-        }
-
-        @media (max-width: 610px) and (min-width: 420px) {
-          width: 85%;
-        }
-
-        @media (max-width: 420px) {
-          width: 79%;
-        }
       }
     }
   }

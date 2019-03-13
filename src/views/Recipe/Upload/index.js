@@ -9,6 +9,12 @@ import UploadStepsInformation from "../../../components/Recipe/Upload/Steps/Info
 import UploadStepsPhotos from "../../../components/Recipe/Upload/Steps/Photos";
 import UploadStepsIngredients from "../../../components/Recipe/Upload/Steps/Ingredients";
 import UploadStepByStep from "../../../components/Recipe/Upload/Steps/Steps";
+import {
+    defaultValues,
+    deleteValue,
+    changeValueIngredientsOrSteps,
+    changeValueInformationOrPhotos
+} from "../../../helpers/recipe.function";
 
 function getSteps() {
     return [
@@ -25,7 +31,7 @@ class UploadRecipe extends Component {
         values: {
             recipe_name: '',
             recipe_description: '',
-            recipe_level: '',
+            recipe_level: 1,
             recipe_time: '',
             photos: {},
             ingredients: [
@@ -47,51 +53,19 @@ class UploadRecipe extends Component {
     };
 
     setDefaultValues = (index, stepName) => {
-        const stepsValue = {
-            name: '',
-            description: '',
-            step: index,
-        };
-
-        const ingredientsValue = {
-            name: '',
-            value: '',
-            unit: 1,
-            ingredient: index,
-        };
-
-        let newValues = [
-            ...this.state.values[stepName],
-            stepName === "steps" ? stepsValue : ingredientsValue
-        ];
-
-        this.setState({values: {...this.state.values, [stepName]: newValues}});
+        this.setState(defaultValues(this.state.values, index, stepName));
     };
 
     deleteValue = (index, stepName) => {
-        let deleteValue = [...this.state.values[stepName]];
-
-        deleteValue.splice(deleteValue.indexOf(index), 1);
-
-        this.setState({values: {...this.state.values, [stepName]: deleteValue}});
+        this.setState(deleteValue(this.state.values, index, stepName));
     };
 
-    onChangeValue = (index, input, stepName) => e => {
-        let inputValue = e.target.value;
-        let indexName = stepName === "steps" ? "step" : "ingredient";
+    onChangeIngredientsOrSteps = (index, input, stepName) => e => {
+        this.setState(changeValueIngredientsOrSteps(this.state.values, index, input, stepName, e));
+    };
 
-        this.setState(state => ({
-            values: {
-                ...this.state.values,
-                [stepName]: state.values[stepName].map(item => {
-                    if (item[indexName] === index) {
-                        return {...item, [input]: inputValue};
-                    }
-
-                    return item;
-                })
-            }
-        }));
+    onChangeInformationOrPhotos = input => e => {
+        this.setState(changeValueInformationOrPhotos(this.state.values, input, e));
     };
 
     handleNext = () => {
@@ -112,26 +86,19 @@ class UploadRecipe extends Component {
         });
     };
 
-    handleChange = input => e => {
-        input === "photo" ?
-            this.setState({values: {...this.state.values, photos: e.target.files}})
-            :
-            this.setState({values: {...this.state.values, [input]: e.target.value}});
-    };
-
     getStepContent(stepIndex) {
         switch (stepIndex) {
             case 0:
                 return <UploadStepsInformation
                     values={this.state.values}
                     nextStep={this.handleNext}
-                    handleChange={this.handleChange}
+                    onChange={this.onChangeInformationOrPhotos}
                 />;
 
             case 1:
                 return <UploadStepsPhotos
                     values={this.state.values}
-                    handleChange={this.handleChange}
+                    onChange={this.onChangeInformationOrPhotos}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
                 />;
@@ -141,7 +108,7 @@ class UploadRecipe extends Component {
                     values={this.state.values}
                     setDefaultValues={this.setDefaultValues}
                     deleteValue={this.deleteValue}
-                    onChange={this.onChangeValue}
+                    onChange={this.onChangeIngredientsOrSteps}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
                 />;
@@ -151,7 +118,7 @@ class UploadRecipe extends Component {
                     values={this.state.values}
                     setDefaultValues={this.setDefaultValues}
                     deleteValue={this.deleteValue}
-                    onChange={this.onChangeValue}
+                    onChange={this.onChangeIngredientsOrSteps}
                     backStep={this.handleBack}
                     nextStep={this.handleNext}
                 />;

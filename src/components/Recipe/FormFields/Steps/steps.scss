@@ -1,0 +1,40 @@
+.recipe-steps-fields {
+  .fab-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .stepbystep-field-container {
+    padding-top: 10px;
+
+    .step-input {
+      width: 100%;
+    }
+
+    .step-line {
+      width: 90%;
+      margin: 20px auto;
+      height: 2px;
+      background-color: #f1f1f1;
+      border-radius: 100%;
+      display: block;
+    }
+
+    .field-width-with-delete-icon {
+      width: 92%;
+
+      @media (max-width: 740px) and (min-width: 610px) {
+        width: 90%
+      }
+
+      @media (max-width: 610px) and (min-width: 420px) {
+        width: 85%;
+      }
+
+      @media (max-width: 420px) {
+        width: 79%;
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import Register from "./views/User/Register";
 import ReadRecipe from "./views/Recipe/Read";
 import UploadRecipe from "./views/Recipe/Upload";
 import UserProfile from "./views/User/Profile";
+import AccountSettings from "./views/User/Settings";
 import Logout from "./views/User/Logout";
 import NotFound from "./views/Errors/NotFound";
 import {DisabledIfLogged, PrivateRoute} from "./helpers/privateRoute";
@@ -37,6 +38,7 @@ class App extends Component {
                             <DisabledIfLogged exact path="/register" component={Register} />
                             <PrivateRoute exact path="/logout" component={Logout} />
                             <PrivateRoute exact path="/upload" component={UploadRecipe} />
+                            <PrivateRoute exact path="/settings" component={AccountSettings} />
                             <Route exact component={NotFound} />
                         </Switch>
                     </div>

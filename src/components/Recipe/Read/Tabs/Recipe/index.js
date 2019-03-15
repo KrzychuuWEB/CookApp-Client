@@ -9,6 +9,7 @@ import {
     Typography
 } from "@material-ui/core";
 import Lightbox from "../../../../Lightbox";
+import { ExpandMore } from '@material-ui/icons';
 
 class RecipeTab extends Component {
     state = {
@@ -48,7 +49,7 @@ class RecipeTab extends Component {
                         </Typography>
 
                         <ExpansionPanel>
-                            <ExpansionPanelSummary>
+                            <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
                                 <Typography>
                                     1. Przygotowanie ciasta
                                 </Typography>
@@ -62,7 +63,7 @@ class RecipeTab extends Component {
                         </ExpansionPanel>
 
                         <ExpansionPanel>
-                            <ExpansionPanelSummary>
+                            <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
                                 <Typography>
                                     2. Przygotowanie masy
                                 </Typography>

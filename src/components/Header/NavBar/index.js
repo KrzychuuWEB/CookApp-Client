@@ -149,6 +149,13 @@ class NavBar extends Component {
                                     >
                                         <MenuItem onClick={this.closeUserMenu}>Profil</MenuItem>
                                         <MenuItem
+                                            component={Link}
+                                            to="/settings"
+                                            onClick={this.closeUserMenu}
+                                        >
+                                            Ustawienia
+                                        </MenuItem>
+                                        <MenuItem
                                             onClick={this.closeUserMenu}
                                             component={Link}
                                             to="/logout"

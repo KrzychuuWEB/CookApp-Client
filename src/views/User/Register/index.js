@@ -16,6 +16,13 @@ import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import * as registerApi from '../../../helpers/api/registerApi';
 import {LinearProgress} from "@material-ui/core";
+import {isFormValid} from "../../../helpers/validations";
+import {
+    validUserEmail,
+    validUserPassword,
+    validUserPasswordAndRepeatPassword, validUserRepeatPassword,
+    validUserUsername
+} from "../../../helpers/validations/user.validations";
 
 class Register extends Component {
     state = {
@@ -55,50 +62,19 @@ class Register extends Component {
     validation = () => {
         let values = this.state.values;
         let errors = {};
-        let isValid = true;
 
-        if(values.username.length < 1) {
-            isValid = false;
-            errors.username = "Pole jest wymagane!";
-        }
-
-        if(values.email.length < 1) {
-            isValid = false;
-            errors.email = "Pole jest wymagane!";
-        } else if(!this.checkEmail(values.email)) {
-            isValid = false;
-            errors.email = "Email jest nieprawidłowy!";
-        }
-
-        if(values.plainPassword.length < 1) {
-            isValid = false;
-            errors.plainPassword = "Pole jest wymagane!"
-        } else if(values.plainPassword.length < 8) {
-            isValid = false;
-            errors.plainPassword = "Hasło musi mieć minimum 8 znaków!"
-        }
-
-        if(values.repeatPassword.length < 1) {
-            isValid = false;
-            errors.repeatPassword = "Pole jest wymagane!";
-        } else if(values.repeatPassword.length < 8) {
-            isValid = false;
-            errors.repeatPassword = "Hasło musi mieć minimum 8 znaków!"
-        }
-
-        if (values.repeatPassword !== values.plainPassword) {
-            isValid = false;
-            errors.plainPassword = "Hasła nie są takie same!";
-            errors.repeatPassword = "Hasła nie są takie same!";
-        }
+        validUserUsername(errors, values);
+        validUserEmail(errors, values);
+        validUserPassword(errors, values);
+        validUserRepeatPassword(errors, values);
+        validUserPasswordAndRepeatPassword(errors, values);
 
         if(!values.terms) {
-            isValid = false;
             errors.terms = "Regulamin jest wymagany!"
         }
 
         this.setState({errors: errors});
-        return isValid;
+        return isFormValid(errors);
     };
 
     onClick = async () => {

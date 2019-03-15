@@ -18,12 +18,14 @@ import {
     setUser,
     setUserToken
 } from "../../../helpers/storage/user.storage";
+import {isFormValid} from "../../../helpers/validations";
+import {validUserPassword, validUserUsername} from "../../../helpers/validations/user.validations";
 
 class Login extends Component {
     state = {
         values: {
             username: '',
-            password: '',
+            plainPassword: '',
         },
         showPassword: false,
         errors: {},
@@ -35,25 +37,14 @@ class Login extends Component {
     };
 
     validation = () => {
-        let { username, password } = this.state.values;
+        let values = this.state.values;
         let errors = {};
-        let isValid = true;
 
-        if(username.length < 1) {
-            isValid = false;
-            errors.username = "Pole jest wymagane!"
-        }
-
-        if(password.length < 1) {
-            isValid = false;
-            errors.password = "Pole jest wymagane!"
-        } else if(password.length < 8) {
-            isValid = false;
-            errors.password = "Hasło musi mieć minimum 8 znaków!"
-        }
+        validUserUsername(errors, values);
+        validUserPassword(errors, values);
 
         this.setState({errors: errors});
-        return isValid;
+        return isFormValid(errors);
     };
 
     onChange = input => e => {
@@ -84,7 +75,7 @@ class Login extends Component {
                     this.setState({
                         errors: {
                             username: "Nieprawidłowy login lub hasło!",
-                            password: "Nieprawidłowy login lub hasło!",
+                            plainPassword: "Nieprawidłowy login lub hasło!",
                         }
                     })
                 })
@@ -122,11 +113,11 @@ class Login extends Component {
                                 error={!!errors.username}
                                 helperText={errors.username}
                             />
-                            <FormControl className="field-width" error={!!errors.password}>
+                            <FormControl className="field-width" error={!!errors.plainPassword}>
                                 <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                                 <Input
                                     onChange={this.onChange("password")}
-                                    value={values.password}
+                                    value={values.plainPassword}
                                     name="user_password"
                                     id="adorment-password"
                                     type={this.state.showPassword ? 'text' : 'password'}
@@ -141,7 +132,7 @@ class Login extends Component {
                                         </InputAdornment>
                                     }
                                 />
-                                <FormHelperText>{errors.password}</FormHelperText>
+                                <FormHelperText>{errors.plainPassword}</FormHelperText>
                             </FormControl>
                         </div>
                         <div className="buttons">

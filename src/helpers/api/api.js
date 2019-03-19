@@ -14,7 +14,6 @@ const postAndPutSkeleton = (url, method, body, resolve, reject) => {
             resolve(response);
         })
         .catch(error => {
-            console.log(error.message);
             reject(error);
         })
 };

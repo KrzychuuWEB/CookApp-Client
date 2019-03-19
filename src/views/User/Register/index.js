@@ -23,6 +23,7 @@ import {
     validUserPasswordAndRepeatPassword, validUserRepeatPassword,
     validUserUsername
 } from "../../../helpers/validations/user.validations";
+import ChangeContentIfError from "../../../helpers/api/errors/changeContentIfError";
 
 class Register extends Component {
     state = {
@@ -54,9 +55,9 @@ class Register extends Component {
     };
 
     handleCheckbox = e => {
-      this.setState({
-          values: { ...this.state.values, terms: e.target.checked}
-      })
+        this.setState({
+            values: { ...this.state.values, terms: e.target.checked}
+        })
     };
 
     validation = () => {
@@ -79,7 +80,6 @@ class Register extends Component {
 
     onClick = async () => {
         let valid = this.validation();
-        // let checkError = false;
 
         if(valid) {
             const { username, plainPassword, email } = this.state.values;
@@ -99,8 +99,10 @@ class Register extends Component {
                     }, 500);
                 })
                 .catch(error => {
-                    const fields = error.response.data.error_fields;
-                    this.setState({errors: fields})
+                    if(error.response && error.response.data) {
+                        const fields = error.response.data.error_fields;
+                        this.setState({errors: fields})
+                    }
                 })
                 .finally(() => {
                     this.setState({processing: false});
@@ -108,6 +110,7 @@ class Register extends Component {
         } else {
             return false;
         }
+
     };
 
     render() {
@@ -115,94 +118,98 @@ class Register extends Component {
 
         return (
             <div className="register-container">
-                <Paper className="register-box">
-                    {
-                        processing && <LinearProgress className="progress-bar" color="secondary" />
-                    }
+                <ChangeContentIfError>
 
-                    <Typography variant="h6" color="secondary">
-                        Zarejestruj się!
-                    </Typography>
+                    <Paper className="register-box">
+                        {
+                            processing && <LinearProgress className="progress-bar" color="secondary" />
+                        }
 
-                    <form className="register-form" noValidate autoComplete="off">
-                        <TextField
-                            value={values.username}
-                            className="field-width"
-                            label="Login"
-                            onChange={this.onChange("username")}
-                            error={!!errors.username}
-                            helperText={errors.username}
-                        />
-                        <TextField
-                            value={values.email}
-                            className="field-width"
-                            label="Email"
-                            onChange={this.onChange("email")}
-                            error={!!errors.email}
-                            helperText={errors.email}
-                        />
+                        <Typography variant="h6" color="secondary">
+                            Zarejestruj się!
+                        </Typography>
 
-                        <FormControl className="field-width" error={!!errors.plainPassword}>
-                            <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
-                            <Input
-                                value={values.plainPassword}
-                                onChange={this.onChange("plainPassword")}
-                                id="adorment-password"
-                                type={this.state.showPassword ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="Pokaż/ukryj hasło"
-                                            onClick={this.handleClickShowPassword}
-                                        >
-                                            { this.state.showPassword ? <Visibility /> : <VisibilityOff/> }
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
+
+                        <form className="register-form" noValidate autoComplete="off">
+                            <TextField
+                                value={values.username}
+                                className="field-width"
+                                label="Login"
+                                onChange={this.onChange("username")}
+                                error={!!errors.username}
+                                helperText={errors.username}
                             />
-                            <FormHelperText className="remove-margin">{ errors.plainPassword }</FormHelperText>
-                        </FormControl>
-
-                        <FormControl className="field-width" error={!!errors.repeatPassword}>
-                            <InputLabel htmlFor="repeat-password">Powtórz hasło</InputLabel>
-                            <Input
-                                value={values.repeatPassword}
-                                onChange={this.onChange("repeatPassword")}
-                                id="repeat-password"
-                                type={this.state.showPassword ? 'text' : 'password'}
+                            <TextField
+                                value={values.email}
+                                className="field-width"
+                                label="Email"
+                                onChange={this.onChange("email")}
+                                error={!!errors.email}
+                                helperText={errors.email}
                             />
-                            <FormHelperText className="remove-margin">{ errors.repeatPassword }</FormHelperText>
-                        </FormControl>
 
-                        <div className="terms-container">
-                            <FormControlLabel className="field-width" control={
-                                <Checkbox
-                                    onChange={this.handleCheckbox}
-                                    checked={values.terms}
-                                    value="accept_terms"
-                                    color="primary"
+                            <FormControl className="field-width" error={!!errors.plainPassword}>
+                                <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
+                                <Input
+                                    value={values.plainPassword}
+                                    onChange={this.onChange("plainPassword")}
+                                    id="adorment-password"
+                                    type={this.state.showPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="Pokaż/ukryj hasło"
+                                                onClick={this.handleClickShowPassword}
+                                            >
+                                                { this.state.showPassword ? <Visibility /> : <VisibilityOff/> }
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
                                 />
-                            } label="Akceptuje regulamin" />
+                                <FormHelperText className="remove-margin">{ errors.plainPassword }</FormHelperText>
+                            </FormControl>
 
-                            {
-                                errors.terms ?
-                                    <Typography variant="caption" color="error">
-                                        { errors.terms }
-                                    </Typography>
-                                    : null
-                            }
-                        </div>
+                            <FormControl className="field-width" error={!!errors.repeatPassword}>
+                                <InputLabel htmlFor="repeat-password">Powtórz hasło</InputLabel>
+                                <Input
+                                    value={values.repeatPassword}
+                                    onChange={this.onChange("repeatPassword")}
+                                    id="repeat-password"
+                                    type={this.state.showPassword ? 'text' : 'password'}
+                                />
+                                <FormHelperText className="remove-margin">{ errors.repeatPassword }</FormHelperText>
+                            </FormControl>
 
-                        <div className="buttons">
-                            <Button
-                                onClick={this.onClick}
-                                className="button"
-                                variant="contained"
-                                color="primary"
-                            >Zarejestruj</Button>
-                        </div>
-                    </form>
-                </Paper>
+                            <div className="terms-container">
+                                <FormControlLabel className="field-width" control={
+                                    <Checkbox
+                                        onChange={this.handleCheckbox}
+                                        checked={values.terms}
+                                        value="accept_terms"
+                                        color="primary"
+                                    />
+                                } label="Akceptuje regulamin" />
+
+                                {
+                                    errors.terms ?
+                                        <Typography variant="caption" color="error">
+                                            { errors.terms }
+                                        </Typography>
+                                        : null
+                                }
+                            </div>
+
+                            <div className="buttons">
+                                <Button
+                                    onClick={this.onClick}
+                                    className="button"
+                                    variant="contained"
+                                    color="primary"
+                                >Zarejestruj</Button>
+                            </div>
+                        </form>
+                    </Paper>
+                </ChangeContentIfError>
             </div>
         );
     }

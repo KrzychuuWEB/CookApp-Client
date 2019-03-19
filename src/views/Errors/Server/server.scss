@@ -1,0 +1,23 @@
+.server-error-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .icon-position {
+    position: relative;
+
+    .server-icon {
+      font-size: 100px;
+    }
+
+    .bug-icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: rotate(-40deg);
+      font-size: 50px;
+    }
+  }
+}

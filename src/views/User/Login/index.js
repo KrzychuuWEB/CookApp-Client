@@ -20,6 +20,7 @@ import {
 } from "../../../helpers/storage/user.storage";
 import {isFormValid} from "../../../helpers/validations";
 import {validUserPassword, validUserUsername} from "../../../helpers/validations/user.validations";
+import ChangeContentIfError from "../../../helpers/api/errors/changeContentIfError";
 
 class Login extends Component {
     state = {
@@ -71,13 +72,15 @@ class Login extends Component {
                         this.props.history.push(from.pathname);
                     }, 200);
                 })
-                .catch(() => {
-                    this.setState({
-                        errors: {
-                            username: "Nieprawidłowy login lub hasło!",
-                            plainPassword: "Nieprawidłowy login lub hasło!",
-                        }
-                    })
+                .catch(error => {
+                    if(error.response && error.response.data) {
+                        this.setState({
+                            errors: {
+                                username: "Nieprawidłowy login lub hasło!",
+                                plainPassword: "Nieprawidłowy login lub hasło!",
+                            }
+                        });
+                    }
                 })
                 .finally(() => {
                     this.setState({processing: false});
@@ -92,60 +95,62 @@ class Login extends Component {
 
         return (
             <div className="login-container">
-                <Paper className="login-box">
-                    {
-                        processing && <LinearProgress className="progress-bar" color="secondary" />
-                    }
+                <ChangeContentIfError>
+                    <Paper className="login-box">
+                        {
+                            processing && <LinearProgress className="progress-bar" color="secondary" />
+                        }
 
-                    <Typography variant="h6" color="secondary">
-                        Zaloguj się!
-                    </Typography>
+                        <Typography variant="h6" color="secondary">
+                            Zaloguj się!
+                        </Typography>
 
-                    <form noValidate autoComplete="off">
-                        <div className="login-form">
-                            <TextField
-                                onChange={this.onChange("username")}
-                                value={values.username}
-                                className="field-width"
-                                id="username"
-                                label="Login"
-                                name="user_login"
-                                error={!!errors.username}
-                                helperText={errors.username}
-                            />
-                            <FormControl className="field-width" error={!!errors.plainPassword}>
-                                <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
-                                <Input
-                                    onChange={this.onChange("password")}
-                                    value={values.plainPassword}
-                                    name="user_password"
-                                    id="adorment-password"
-                                    type={this.state.showPassword ? 'text' : 'password'}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="Pokaż/ukryj hasło"
-                                                onClick={this.handleClickShowPassword}
-                                            >
-                                                { this.state.showPassword ? <Visibility /> : <VisibilityOff/> }
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
+                        <form noValidate autoComplete="off">
+                            <div className="login-form">
+                                <TextField
+                                    onChange={this.onChange("username")}
+                                    value={values.username}
+                                    className="field-width"
+                                    id="username"
+                                    label="Login"
+                                    name="user_login"
+                                    error={!!errors.username}
+                                    helperText={errors.username}
                                 />
-                                <FormHelperText>{errors.plainPassword}</FormHelperText>
-                            </FormControl>
-                        </div>
-                        <div className="buttons">
-                            <Button style={{marginLeft: 20}} component={Link} to="/register" variant="text" color="secondary">Rejestracja</Button>
+                                <FormControl className="field-width" error={!!errors.plainPassword}>
+                                    <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
+                                    <Input
+                                        onChange={this.onChange("password")}
+                                        value={values.plainPassword}
+                                        name="user_password"
+                                        id="adorment-password"
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="Pokaż/ukryj hasło"
+                                                    onClick={this.handleClickShowPassword}
+                                                >
+                                                    { this.state.showPassword ? <Visibility /> : <VisibilityOff/> }
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                    <FormHelperText>{errors.plainPassword}</FormHelperText>
+                                </FormControl>
+                            </div>
+                            <div className="buttons">
+                                <Button style={{marginLeft: 20}} component={Link} to="/register" variant="text" color="secondary">Rejestracja</Button>
 
-                            <Button
-                                onClick={this.onClick}
-                                variant="contained"
-                                color="primary"
-                            >Zaloguj</Button>
-                        </div>
-                    </form>
-                </Paper>
+                                <Button
+                                    onClick={this.onClick}
+                                    variant="contained"
+                                    color="primary"
+                                >Zaloguj</Button>
+                            </div>
+                        </form>
+                    </Paper>
+                </ChangeContentIfError>
             </div>
         );
     }

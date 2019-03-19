@@ -1,5 +1,11 @@
 import {isFormValid} from "./index";
 
+const checkEmail = email => {
+    let regex = /\S+@\S+\.\S+/;
+    return regex.test(email);
+};
+
+
 export const validUserUsername = (errors, values) => {
     if(values.username.length < 1) {
         errors.username = "Pole jest wymagane!";
@@ -11,7 +17,7 @@ export const validUserUsername = (errors, values) => {
 export const validUserEmail = (errors, values) => {
     if(values.email.length < 1) {
         errors.email = "Pole jest wymagane!";
-    } else if(!this.checkEmail(values.email)) {
+    } else if(!checkEmail(values.email)) {
         errors.email = "Email jest nieprawidłowy!";
     }
     return isFormValid(errors);

@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Home, Favorite } from '@material-ui/icons';
+import { Home, Info } from '@material-ui/icons';
 
 class LeftBar extends React.Component {
     render() {
@@ -16,9 +16,9 @@ class LeftBar extends React.Component {
                         <ListItemText primary="Strona główna" />
                     </ListItem>
 
-                    <ListItem button>
-                        <ListItemIcon><Favorite /></ListItemIcon>
-                        <ListItemText primary="Przepisy" />
+                    <ListItem button component={Link} to="/license">
+                        <ListItemIcon><Info /></ListItemIcon>
+                        <ListItemText primary="Licencje" />
                     </ListItem>
                 </List>
             </div>

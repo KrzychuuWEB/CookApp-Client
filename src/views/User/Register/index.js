@@ -15,7 +15,7 @@ import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlL
 import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import * as registerApi from '../../../helpers/api/registerApi';
-import {LinearProgress} from "@material-ui/core";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress} from "@material-ui/core";
 import {isFormValid} from "../../../helpers/validations";
 import {
     validUserEmail,
@@ -32,16 +32,11 @@ class Register extends Component {
             email: '',
             plainPassword: '',
             repeatPassword: '',
-            terms: false,
         },
         showPassword: false,
         errors: {},
         processing: false,
-    };
-
-    checkEmail = email => {
-        let regex = /\S+@\S+\.\S+/;
-        return regex.test(email);
+        termsOpen: false,
     };
 
     handleClickShowPassword = () => {
@@ -54,12 +49,6 @@ class Register extends Component {
         });
     };
 
-    handleCheckbox = e => {
-        this.setState({
-            values: { ...this.state.values, terms: e.target.checked}
-        })
-    };
-
     validation = () => {
         let values = this.state.values;
         let errors = {};
@@ -70,47 +59,52 @@ class Register extends Component {
         validUserRepeatPassword(errors, values);
         validUserPasswordAndRepeatPassword(errors, values);
 
-        if(!values.terms) {
-            errors.terms = "Regulamin jest wymagany!"
-        }
-
         this.setState({errors: errors});
         return isFormValid(errors);
     };
 
-    onClick = async () => {
+    register = async () => {
+        this.handleClose();
+
+        const { username, plainPassword, email } = this.state.values;
+
+        this.setState({processing: true});
+
+        await registerApi.create(
+            {
+                username,
+                plainPassword,
+                email
+            }
+        )
+            .then(response => {
+                setTimeout(() => {
+                    this.props.history.push("/login");
+                }, 500);
+            })
+            .catch(error => {
+                if(error.response && error.response.data) {
+                    const fields = error.response.data.error_fields;
+                    this.setState({errors: fields})
+                }
+            })
+            .finally(() => {
+                this.setState({processing: false});
+            });
+    };
+
+    handleClickOpen = () => {
         let valid = this.validation();
 
         if(valid) {
-            const { username, plainPassword, email } = this.state.values;
-
-            this.setState({processing: true});
-
-            await registerApi.create(
-                {
-                    username,
-                    plainPassword,
-                    email
-                }
-            )
-                .then(response => {
-                    setTimeout(() => {
-                        this.props.history.push("/login");
-                    }, 500);
-                })
-                .catch(error => {
-                    if(error.response && error.response.data) {
-                        const fields = error.response.data.error_fields;
-                        this.setState({errors: fields})
-                    }
-                })
-                .finally(() => {
-                    this.setState({processing: false});
-                });
+            this.setState({ termsOpen: true });
         } else {
             return false;
         }
+    };
 
+    handleClose = () => {
+        this.setState({ termsOpen: false });
     };
 
     render() {
@@ -119,7 +113,6 @@ class Register extends Component {
         return (
             <div className="register-container">
                 <ChangeContentIfError>
-
                     <Paper className="register-box">
                         {
                             processing && <LinearProgress className="progress-bar" color="secondary" />
@@ -180,34 +173,38 @@ class Register extends Component {
                                 <FormHelperText className="remove-margin">{ errors.repeatPassword }</FormHelperText>
                             </FormControl>
 
-                            <div className="terms-container">
-                                <FormControlLabel className="field-width" control={
-                                    <Checkbox
-                                        onChange={this.handleCheckbox}
-                                        checked={values.terms}
-                                        value="accept_terms"
-                                        color="primary"
-                                    />
-                                } label="Akceptuje regulamin" />
-
-                                {
-                                    errors.terms ?
-                                        <Typography variant="caption" color="error">
-                                            { errors.terms }
-                                        </Typography>
-                                        : null
-                                }
-                            </div>
-
                             <div className="buttons">
                                 <Button
-                                    onClick={this.onClick}
+                                    onClick={this.handleClickOpen}
                                     className="button"
                                     variant="contained"
                                     color="primary"
                                 >Zarejestruj</Button>
                             </div>
                         </form>
+
+
+                        <Dialog
+                            open={this.state.termsOpen}
+                            onClose={this.handleClose}
+                            scroll="paper"
+                        >
+                            <DialogTitle>Regulamin</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Regulamin serwisu ECook
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.handleClose} color="primary">
+                                    Anuluj
+                                </Button>
+
+                                <Button onClick={this.register} color="primary" variant="contained">
+                                    Akceptuje
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </Paper>
                 </ChangeContentIfError>
             </div>

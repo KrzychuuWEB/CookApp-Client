@@ -58,7 +58,10 @@ class Login extends Component {
         if(valid) {
             this.setState({processing: true});
 
-            const data = this.state.values;
+            const data = {
+                'username': this.state.values.username,
+                'password': this.state.values.plainPassword,
+            };
 
             await loginApi.login(data)
                 .then(response => {
@@ -120,7 +123,7 @@ class Login extends Component {
                                 <FormControl className="field-width" error={!!errors.plainPassword}>
                                     <InputLabel htmlFor="adorment-password">Hasło</InputLabel>
                                     <Input
-                                        onChange={this.onChange("password")}
+                                        onChange={this.onChange("plainPassword")}
                                         value={values.plainPassword}
                                         name="user_password"
                                         id="adorment-password"

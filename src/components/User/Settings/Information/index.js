@@ -14,7 +14,7 @@ class SettingsUserInformation extends Component {
         values: {
             first_name: '',
             last_name: '',
-            age: 20,
+            age: 1,
             hobby: '',
             country: '',
             place: '',
@@ -69,7 +69,7 @@ class SettingsUserInformation extends Component {
                     className="user-information-fields"
                     label="Imię"
                     onChange={this.onChange("first_name")}
-                    values={values.first_name}
+                    value={values.first_name}
                     error={!!errors.first_name}
                     helperText={errors.first_name}
                 />
@@ -78,7 +78,7 @@ class SettingsUserInformation extends Component {
                     className="user-information-fields"
                     label="Nazwisko"
                     onChange={this.onChange("last_name")}
-                    values={values.last_name}
+                    value={values.last_name}
                     error={!!errors.last_name}
                     helperText={errors.last_name}
                 />
@@ -86,8 +86,8 @@ class SettingsUserInformation extends Component {
                 <FormControl className="user-information-fields" error={!!errors.age}>
                     <InputLabel htmlFor="age-input">Wiek</InputLabel>
                     <Select
-                        // onChange={this.onChange("age")}
-                        values={19}
+                        onChange={this.onChange("age")}
+                        value={values.age}
                         inputProps={{
                             name: 'age',
                             id: 'age-input'
@@ -111,7 +111,7 @@ class SettingsUserInformation extends Component {
                     className="user-information-fields"
                     label="Zainteresowania"
                     onChange={this.onChange("hobby")}
-                    values={values.hobby}
+                    value={values.hobby}
                     error={!!errors.hobby}
                     helperText={errors.hobby}
                 />
@@ -120,7 +120,7 @@ class SettingsUserInformation extends Component {
                     className="user-information-fields"
                     label="Kraj"
                     onChange={this.onChange("country")}
-                    values={values.country}
+                    value={values.country}
                     error={!!errors.country}
                     helperText={errors.country}
                 />
@@ -129,7 +129,7 @@ class SettingsUserInformation extends Component {
                     className="user-information-fields"
                     label="Miejscowość"
                     onChange={this.onChange("place")}
-                    values={values.place}
+                    value={values.place}
                     error={!!errors.place}
                     helperText={errors.place}
                 />
@@ -140,7 +140,7 @@ class SettingsUserInformation extends Component {
                     multiline
                     rows="4"
                     onChange={this.onChange("about_me")}
-                    values={values.about_me}
+                    value={values.about_me}
                     error={!!errors.about_me}
                     helperText={errors.about_me}
                 />

@@ -25,7 +25,7 @@ class UserChangePassword extends Component {
                     name="repeat_password"
                 />
 
-                <Button className="change-password-button" variant="outlined" color="primary">
+                <Button className="change-password-button" variant="contained" color="primary">
                     Zmień hasło
                 </Button>
             </div>

@@ -9,7 +9,7 @@ class License extends Component {
                 <Paper className="paper">
                     <div className="license-name">
                         <Typography variant="headline" color="secondary">
-                            Axios ( <a target="_blank" href="https://github.com/axios/axios">GitHub</a>)
+                            Axios ( <a rel="noopener noreferrer" target="_blank" href="https://github.com/axios/axios">GitHub</a>)
                         </Typography>
                     </div>
 
@@ -41,7 +41,7 @@ class License extends Component {
                 <Paper className="paper">
                     <div className="license-name">
                         <Typography variant="headline" color="secondary">
-                            Material-UI ( <a target="_blank" href="https://github.com/mui-org/material-ui">GitHub</a>)
+                            Material-UI ( <a rel="noopener noreferrer" target="_blank" href="https://github.com/mui-org/material-ui">GitHub</a>)
                         </Typography>
                     </div>
 
@@ -75,7 +75,7 @@ class License extends Component {
                 <Paper className="paper">
                     <div className="license-name">
                         <Typography variant="headline" color="secondary">
-                            JWT-Decode ( <a target="_blank" href="https://github.com/auth0/jwt-decode">GitHub</a>)
+                            JWT-Decode ( <a rel="noopener noreferrer" target="_blank" href="https://github.com/auth0/jwt-decode">GitHub</a>)
                         </Typography>
                     </div>
 
@@ -109,7 +109,7 @@ class License extends Component {
                 <Paper className="paper">
                     <div className="license-name">
                         <Typography variant="headline" color="secondary">
-                            React-Router ( <a target="_blank" href="https://github.com/ReactTraining/react-router">GitHub</a>)
+                            React-Router ( <a rel="noopener noreferrer" target="_blank" href="https://github.com/ReactTraining/react-router">GitHub</a>)
                         </Typography>
                     </div>
 
@@ -143,7 +143,7 @@ class License extends Component {
                 <Paper className="paper">
                     <div className="license-name">
                         <Typography variant="headline" color="secondary">
-                            React-Scroll-Up ( <a target="_blank" href="https://github.com/milosjanda/react-scroll-up">GitHub</a>)
+                            React-Scroll-Up ( <a rel="noopener noreferrer" target="_blank" href="https://github.com/milosjanda/react-scroll-up">GitHub</a>)
                         </Typography>
                     </div>
 

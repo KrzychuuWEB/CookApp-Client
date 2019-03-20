@@ -11,8 +11,6 @@ import Input from "@material-ui/core/es/Input/Input";
 import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
-import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlLabel";
-import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import * as registerApi from '../../../helpers/api/registerApi';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress} from "@material-ui/core";

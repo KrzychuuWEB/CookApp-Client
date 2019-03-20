@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+import { AppBar, Toolbar, IconButton, Typography, InputBase, Button, Drawer } from '@material-ui/core';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import Button from "@material-ui/core/es/Button/Button";
-import Drawer from "@material-ui/core/es/Drawer/Drawer";
+import { Search, Menu } from '@material-ui/icons';
 import LeftMenuList from "../LeftMenuList";
 import {getUser} from "../../../helpers/storage/user.storage";
-import UserAvatar from "../../Avatar";
-import {Menu, MenuItem} from "@material-ui/core";
+import LoggedUserMenu from "./LoggedUserMenu";
 
 const styles = theme => ({
     list: {
@@ -82,7 +74,6 @@ const styles = theme => ({
 class NavBar extends Component {
     state = {
         left: false,
-        anchorEl: null,
     };
 
     toggleDrawer = (side, open) => () => {
@@ -91,31 +82,22 @@ class NavBar extends Component {
         });
     };
 
-    openUserMenu = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    closeUserMenu = () => {
-        this.setState({ anchorEl: null });
-    };
-
     render() {
         const { classes } = this.props;
-        const { anchorEl } = this.state;
 
         return (
             <div className={classes.root}>
                 <AppBar position="fixed">
                     <Toolbar>
                         <IconButton onClick={this.toggleDrawer('left', true)} className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                            <MenuIcon />
+                            <Menu />
                         </IconButton>
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                             ECook
                         </Typography>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
-                                <SearchIcon />
+                                <Search />
                             </div>
                             <InputBase
                                 placeholder="Znajdz przepis..."
@@ -129,41 +111,7 @@ class NavBar extends Component {
                         {
                             !getUser()
                                 ? <Button color="inherit" component={Link} to="/login">Zaloguj</Button>
-                                : <div>
-                                    <IconButton
-                                        aria-owns={anchorEl ? 'simple-menu' : undefined}
-                                        aria-haspopup="true"
-                                        onClick={this.openUserMenu}
-                                    >
-                                        <UserAvatar
-                                            username={getUser().username}
-                                            url="https://pngimage.net/wp-content/uploads/2018/05/avatar-perfil-png-1.png"
-                                        />
-                                    </IconButton>
-
-                                    <Menu
-                                        id="simple-menu"
-                                        anchorEl={anchorEl}
-                                        open={Boolean(anchorEl)}
-                                        onClose={this.closeUserMenu}
-                                    >
-                                        <MenuItem onClick={this.closeUserMenu}>Profil</MenuItem>
-                                        <MenuItem
-                                            component={Link}
-                                            to="/settings"
-                                            onClick={this.closeUserMenu}
-                                        >
-                                            Ustawienia
-                                        </MenuItem>
-                                        <MenuItem
-                                            onClick={this.closeUserMenu}
-                                            component={Link}
-                                            to="/logout"
-                                        >
-                                            Wyloguj
-                                        </MenuItem>
-                                    </Menu>
-                                </div>
+                                : <LoggedUserMenu/>
                         }
                     </Toolbar>
                 </AppBar>

@@ -16,7 +16,7 @@ import AccountSettings from "./views/User/Settings";
 import Logout from "./views/User/Logout";
 import NotFound from "./views/Errors/NotFound";
 import {DisabledIfLogged, PrivateRoute} from "./helpers/privateRoute";
-import HandleGlobalApiError from "./helpers/api/errors/handleGlobalApiError";
+import HandleGlobalApiError from "./helpers/api/interceptor/globalInterceptorHandler";
 import License from "./views/License";
 
 class App extends Component {
@@ -36,7 +36,7 @@ class App extends Component {
                             <Switch>
                                 <Route exact path="/" component={Home} />
                                 <Route exact path="/recipe/:id" component={ReadRecipe} />
-                                <Route exact path="/user/:id" component={UserProfile} />
+                                <Route exact path="/user/:username" component={UserProfile} />
                                 <Route exact path="/license" component={License} />
                                 <DisabledIfLogged exact path="/login" component={Login} />
                                 <DisabledIfLogged exact path="/register" component={Register} />

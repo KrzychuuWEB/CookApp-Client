@@ -20,10 +20,10 @@ class UploadStepsInformation extends Component {
         let errors = {};
         let { values } = this.props;
 
-        validRecipeName(errors, values);
-        validRecipeDescription(errors, values);
-        validRecipeLevel(errors, values);
-        validRecipeTime(errors, values);
+        validRecipeName(errors, values, "recipe_name");
+        validRecipeDescription(errors, values, "recipe_description");
+        validRecipeLevel(errors, values, "recipe_level");
+        validRecipeTime(errors, values, "recipe_time");
 
         this.setState({errors: errors});
         

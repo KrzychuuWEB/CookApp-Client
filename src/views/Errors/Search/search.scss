@@ -1,0 +1,12 @@
+.search-error-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 35vh;
+  text-align: center;
+
+  > div {
+    .search-icon {
+      font-size: 100px;
+    }
+  }
+}

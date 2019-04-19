@@ -9,6 +9,9 @@ import Tooltip from "@material-ui/core/es/Tooltip/Tooltip";
 
 class ProfileTab extends Component {
     render() {
+        const { user } = this.props;
+        console.log(user);
+
         return (
             <div className="profile-tab">
                 <Paper className="profil-right-section">
@@ -17,7 +20,7 @@ class ProfileTab extends Component {
                     </Typography>
 
                     <Typography variant="body2">
-                        Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym. Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z zawierającym różne wersje Lorem Ipsum oprogramowaniem przeznaczonym do realizacji druków na komputerach osobistych, jak Aldus PageMaker
+                        { user.about_me }
                     </Typography>
 
                     <span className="line" />

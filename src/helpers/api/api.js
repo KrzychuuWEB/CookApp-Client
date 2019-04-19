@@ -25,6 +25,7 @@ export const get = (url) => {
                 method: 'GET',
                 url: url,
                 headers: {
+                    'Content-Type': 'application/json',
                     'Accept-Language': 'pl',
                 },
             })

@@ -12,16 +12,16 @@ import InputAdornment from "@material-ui/core/es/InputAdornment/InputAdornment";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
-import * as registerApi from '../../../helpers/api/registerApi';
+import * as userApi from '../../../helpers/api/user.api';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress} from "@material-ui/core";
 import {isFormValid} from "../../../helpers/validations";
 import {
     validUserEmail,
     validUserPassword,
-    validUserPasswordAndRepeatPassword, validUserRepeatPassword,
+    validUserPasswordAndRepeatPassword,
     validUserUsername
 } from "../../../helpers/validations/user.validations";
-import ChangeContentIfError from "../../../helpers/api/errors/changeContentIfError";
+import ChangeContentIfError from "../../../helpers/api/interceptor/changeContentIfError";
 
 class Register extends Component {
     state = {
@@ -51,11 +51,11 @@ class Register extends Component {
         let values = this.state.values;
         let errors = {};
 
-        validUserUsername(errors, values);
-        validUserEmail(errors, values);
-        validUserPassword(errors, values);
-        validUserRepeatPassword(errors, values);
-        validUserPasswordAndRepeatPassword(errors, values);
+        validUserUsername(errors, values, "username");
+        validUserEmail(errors, values, "email");
+        validUserPassword(errors, values, "password");
+        validUserPassword(errors, values, "repeatPassword");
+        validUserPasswordAndRepeatPassword(errors, values, "password", "repeatPassword");
 
         this.setState({errors: errors});
         return isFormValid(errors);
@@ -68,7 +68,7 @@ class Register extends Component {
 
         this.setState({processing: true});
 
-        await registerApi.create(
+        await userApi.createUser(
             {
                 username,
                 plainPassword,

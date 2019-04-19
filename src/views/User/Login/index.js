@@ -13,14 +13,14 @@ import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import {LinearProgress} from "@material-ui/core";
-import * as loginApi from '../../../helpers/api/loginApi';
+import * as userApi from '../../../helpers/api/user.api';
 import {
     setUser,
     setUserToken
 } from "../../../helpers/storage/user.storage";
 import {isFormValid} from "../../../helpers/validations";
 import {validUserPassword, validUserUsername} from "../../../helpers/validations/user.validations";
-import ChangeContentIfError from "../../../helpers/api/errors/changeContentIfError";
+import ChangeContentIfError from "../../../helpers/api/interceptor/changeContentIfError";
 
 class Login extends Component {
     state = {
@@ -41,8 +41,8 @@ class Login extends Component {
         let values = this.state.values;
         let errors = {};
 
-        validUserUsername(errors, values);
-        validUserPassword(errors, values);
+        validUserUsername(errors, values, "username");
+        validUserPassword(errors, values, "plainPassword");
 
         this.setState({errors: errors});
         return isFormValid(errors);
@@ -63,7 +63,7 @@ class Login extends Component {
                 'password': this.state.values.plainPassword,
             };
 
-            await loginApi.login(data)
+            await userApi.loginUser(data)
                 .then(response => {
                     const token = response.data.token;
                     const { from } = this.props.location.state || { from: { pathname: "/" } };

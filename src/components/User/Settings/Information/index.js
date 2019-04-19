@@ -1,39 +1,75 @@
 import React, { Component } from 'react';
 import './userinformation.scss';
-import {Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
+import {
+    Button,
+    FormControl,
+    FormHelperText,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    Paper,
+    Snackbar
+} from "@material-ui/core";
 import {isFormValid} from "../../../../helpers/validations";
 import {
     validAccountAboutMe,
     validAccountAge, validAccountCountry,
     validAccountFirstName, validAccountHobby,
-    validAccountLastName, validAccountPlace
+    validAccountLastName, validAccountCity
 } from "../../../../helpers/validations/account.validations";
+import {getUserByUsername} from "../../../../helpers/api/user.api";
+import {getUser} from "../../../../helpers/storage/user.storage";
+import {accountDTO} from "../../../../helpers/api/DTO/account.DTO";
+import {updateAccount} from "../../../../helpers/api/account.api";
+import CircularLoader from "../../../Loaders/Circular";
+import MySnackbarContent from "../../../Snackbars";
+import ChangeContentIfError from "../../../../helpers/api/interceptor/changeContentIfError";
 
 class SettingsUserInformation extends Component {
     state = {
         values: {
-            first_name: '',
-            last_name: '',
-            age: 1,
+            firstName: '',
+            lastName: '',
+            age: 0,
             hobby: '',
             country: '',
-            place: '',
-            about_me: '',
+            city: '',
+            aboutMe: '',
         },
         errors: {},
+        processing: true,
+        snackbar: {
+            open: false,
+            message: '',
+            variant: '',
+        },
     };
+
+    componentDidMount() {
+        getUserByUsername(getUser().username)
+            .then(response => {
+                let data = JSON.parse(response.data.user);
+                let account = accountDTO(data);
+
+                this.setState({values: {...this.state.values, ...account}});
+            })
+            .finally(() => {
+                this.setState({processing: false});
+            });
+    }
 
     validation = () => {
         let values = this.state.values;
         let errors = {};
 
-        validAccountFirstName(errors, values);
-        validAccountLastName(errors, values);
-        validAccountAge(errors, values);
-        validAccountHobby(errors, values);
-        validAccountCountry(errors, values);
-        validAccountPlace(errors, values);
-        validAccountAboutMe(errors, values);
+        validAccountFirstName(errors, values, "firstName");
+        validAccountLastName(errors, values, "lastName");
+        validAccountAge(errors, values, "age");
+        validAccountHobby(errors, values, "hobby");
+        validAccountCountry(errors, values, "country");
+        validAccountCity(errors, values, "city");
+        validAccountAboutMe(errors, values, "aboutMe");
 
         this.setState({errors: errors});
         return isFormValid(errors);
@@ -47,109 +83,157 @@ class SettingsUserInformation extends Component {
         let checkValid = this.validation();
 
         if(checkValid) {
-            return true;
+            updateAccount(getUser().username, this.state.values)
+                .then(response => {
+                    this.setState({snackbar: {
+                            open: true,
+                            message: response.data.success,
+                            variant: 'success',
+                        }
+                    });
+                })
+                .catch(error => {
+                    this.setState({snackbar: {
+                            open: true,
+                            message: error.response.data.error,
+                            variant: 'error',
+                        }
+                    });
+                })
+            ;
         } else {
             return false;
         }
     };
 
+    closeSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({snackbar: {
+                open: false,
+                message: '',
+                variant: '',
+            }
+        });
+    };
+
     render() {
-        const {errors, values} = this.state;
+        const {errors, values, processing, snackbar} = this.state;
 
         return (
-            <div className="edit-user-information">
-                <TextField
-                    className="user-information-fields"
-                    label="Nazwa użytkownika"
-                    disabled
-                    value="KrzychuuWEB"
-                />
-
-                <TextField
-                    className="user-information-fields"
-                    label="Imię"
-                    onChange={this.onChange("first_name")}
-                    value={values.first_name}
-                    error={!!errors.first_name}
-                    helperText={errors.first_name}
-                />
-
-                <TextField
-                    className="user-information-fields"
-                    label="Nazwisko"
-                    onChange={this.onChange("last_name")}
-                    value={values.last_name}
-                    error={!!errors.last_name}
-                    helperText={errors.last_name}
-                />
-
-                <FormControl className="user-information-fields" error={!!errors.age}>
-                    <InputLabel htmlFor="age-input">Wiek</InputLabel>
-                    <Select
-                        onChange={this.onChange("age")}
-                        value={values.age}
-                        inputProps={{
-                            name: 'age',
-                            id: 'age-input'
-                        }}
-                    >
-                        {
-                            [...Array(100)].map((x, i) =>
-                                <MenuItem key={i} value={i}>{i}</MenuItem>
-                            )
-                        }
-                    </Select>
+            <div>
+                <ChangeContentIfError>
                     {
+                        processing
+                            ? <CircularLoader />
+                            : <Paper className="paper edit-user-information">
+                                <TextField
+                                    className="user-information-fields"
+                                    label="Imię"
+                                    onChange={this.onChange("firstName")}
+                                    value={values.firstName}
+                                    error={!!errors.firstName}
+                                    helperText={errors.firstName}
+                                />
 
-                        errors.age
-                            ? <FormHelperText>{errors.age}</FormHelperText>
-                            : null
+                                <TextField
+                                    className="user-information-fields"
+                                    label="Nazwisko"
+                                    onChange={this.onChange("lastName")}
+                                    value={values.lastName}
+                                    error={!!errors.lastName}
+                                    helperText={errors.lastName}
+                                />
+
+                                <FormControl className="user-information-fields" error={!!errors.age}>
+                                    <InputLabel htmlFor="age-input">Wiek</InputLabel>
+                                    <Select
+                                        onChange={this.onChange("age")}
+                                        value={values.age}
+                                        inputProps={{
+                                            name: 'age',
+                                            id: 'age-input'
+                                        }}
+                                    >
+                                        {
+                                            [...Array(100)].map((x, i) =>
+                                                <MenuItem key={i} value={i}>{i}</MenuItem>
+                                            )
+                                        }
+                                    </Select>
+                                    {
+
+                                        errors.age
+                                            ? <FormHelperText>{errors.age}</FormHelperText>
+                                            : null
+                                    }
+                                </FormControl>
+
+                                <TextField
+                                    className="user-information-fields"
+                                    label="Zainteresowania"
+                                    onChange={this.onChange("hobby")}
+                                    value={values.hobby}
+                                    error={!!errors.hobby}
+                                    helperText={errors.hobby}
+                                />
+
+                                <TextField
+                                    className="user-information-fields"
+                                    label="Kraj"
+                                    onChange={this.onChange("country")}
+                                    value={values.country}
+                                    error={!!errors.country}
+                                    helperText={errors.country}
+                                />
+
+                                <TextField
+                                    className="user-information-fields"
+                                    label="Miejscowość"
+                                    onChange={this.onChange("city")}
+                                    value={values.city}
+                                    error={!!errors.city}
+                                    helperText={errors.city}
+                                />
+
+                                <TextField
+                                    className="user-information-fields"
+                                    label="O mnie"
+                                    multiline
+                                    rows="4"
+                                    onChange={this.onChange("aboutMe")}
+                                    value={values.aboutMe}
+                                    error={!!errors.aboutMe}
+                                    helperText={errors.aboutMe}
+                                />
+
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={this.onSubmit}
+                                >Zapisz zmiany</Button>
+                            </Paper>
                     }
-                </FormControl>
 
-                <TextField
-                    className="user-information-fields"
-                    label="Zainteresowania"
-                    onChange={this.onChange("hobby")}
-                    value={values.hobby}
-                    error={!!errors.hobby}
-                    helperText={errors.hobby}
-                />
-
-                <TextField
-                    className="user-information-fields"
-                    label="Kraj"
-                    onChange={this.onChange("country")}
-                    value={values.country}
-                    error={!!errors.country}
-                    helperText={errors.country}
-                />
-
-                <TextField
-                    className="user-information-fields"
-                    label="Miejscowość"
-                    onChange={this.onChange("place")}
-                    value={values.place}
-                    error={!!errors.place}
-                    helperText={errors.place}
-                />
-
-                <TextField
-                    className="user-information-fields"
-                    label="O mnie"
-                    multiline
-                    rows="4"
-                    onChange={this.onChange("about_me")}
-                    value={values.about_me}
-                    error={!!errors.about_me}
-                    helperText={errors.about_me}
-                />
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.onSubmit}
-                >Zapisz zmiany</Button>
+                    {
+                        snackbar.open &&
+                        <Snackbar
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            open={snackbar.open}
+                        >
+                            <MySnackbarContent
+                                onClose={this.closeSnackbar}
+                                variant={snackbar.variant}
+                                message={snackbar.message}
+                            />
+                        </Snackbar>
+                    }
+                </ChangeContentIfError>
             </div>
         );
     }

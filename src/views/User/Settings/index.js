@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './accountsettings.scss';
-import {Paper, Tab, Tabs} from "@material-ui/core";
-import UserChangePassword from "../../../components/User/ChangePassword";
+import {Tab, Tabs} from "@material-ui/core";
+import UserChangePassword from "../../../components/User/Settings/ChangePassword";
 import SettingsUserInformation from "../../../components/User/Settings/Information";
 
 class AccountSettings extends Component {
@@ -29,10 +29,11 @@ class AccountSettings extends Component {
                     <Tab label="Zmiana hasła" />
                 </Tabs>
 
-                <Paper className="paper">
+                <div>
                     {value === 0 && <SettingsUserInformation/>}
                     {value === 1 && <UserChangePassword/>}
-                </Paper>
+                </div>
+
             </div>
         );
     }

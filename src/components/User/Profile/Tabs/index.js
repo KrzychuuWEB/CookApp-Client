@@ -16,6 +16,7 @@ class UserTabs extends Component {
 
     render() {
         const { value } = this.state;
+        const { user } = this.props;
 
         return (
             <div>
@@ -32,7 +33,7 @@ class UserTabs extends Component {
                 </div>
 
                 <div className="tabs-margin">
-                    { value === 0 && <ProfileTab /> }
+                    { value === 0 && <ProfileTab user={user} /> }
                     { value === 1 && <RecipesTab /> }
                 </div>
             </div>

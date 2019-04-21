@@ -10,7 +10,6 @@ import Tooltip from "@material-ui/core/es/Tooltip/Tooltip";
 class ProfileTab extends Component {
     render() {
         const { user } = this.props;
-        console.log(user);
 
         return (
             <div className="profile-tab">

@@ -1,0 +1,14 @@
+.user-profile-setting-container {
+  .paper {
+    padding: 20px;
+
+    .profile-settings-delete-user {
+      display: flex;
+      align-items: center;
+
+      .profile-settings-delete-button {
+        margin-left: 20px;
+      }
+    }
+  }
+}

@@ -78,8 +78,6 @@ export const validRecipeIngredientsValue = (errors, values) => {
 export const validRecipeIngredientsUnit = (errors, values) => {
     if(values.unit.length < 1) {
         errors['ingredients_unit' + values.ingredient] = "Pole jest wymagane!";
-    } else if(!Number.isInteger(parseInt(values.unit))) {
-        errors['ingredients_unit' + values.ingredient] = "Zawartość musi być liczbowa!";
     }
 
     return isFormValid(errors) ? null : errors;

@@ -58,9 +58,16 @@ class RecipeIngredientsFields extends Component {
                             id: 'unit-label',
                         }}
                     >
-                        <MenuItem value={1}>kg</MenuItem>
-                        <MenuItem value={2}>g</MenuItem>
-                        <MenuItem value={3}>łyżek</MenuItem>
+                        <MenuItem value="ml">ml</MenuItem>
+                        <MenuItem value="l">l</MenuItem>
+                        <MenuItem value="kg">kg</MenuItem>
+                        <MenuItem value="g">g</MenuItem>
+                        <MenuItem value="lyzek">łyżek</MenuItem>
+                        <MenuItem value="lyzki">łyżki</MenuItem>
+                        <MenuItem value="opakowan">opkakowań</MenuItem>
+                        <MenuItem value="szklanek">szklanek</MenuItem>
+                        <MenuItem value="szklanki">szklanki</MenuItem>
+                        <MenuItem value="szklanka">szklanka</MenuItem>
                     </Select>
                     <FormHelperText>{errors['ingredients_unit' + item.ingredient]}</FormHelperText>
                 </FormControl>

@@ -5,16 +5,31 @@ import {Avatar, Button, Tooltip, Typography} from "@material-ui/core";
 import { Assessment, Timer, CloudUpload } from '@material-ui/icons'
 
 class ReadInformation extends Component {
+    convertLevel = (level) => {
+        switch(level) {
+            case 1:
+                return "Łatwy";
+            case 2:
+                return "Średni";
+            case 3:
+                return "Trudny";
+            default:
+                return "Brak informacji";
+        }
+    };
+
     render() {
+        const { recipe } = this.props;
+
         return (
             <div className="read-information">
                 <div className="recipe-information">
                     <Typography color="secondary" component="h2" variant="h6">
-                        Sernik z brzoskwiniami
+                        { recipe.name }
                     </Typography>
 
                     <Typography>
-                        This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add...
+                        { recipe.description }
                     </Typography>
 
                     <div className="additional-information">
@@ -23,7 +38,7 @@ class ReadInformation extends Component {
                                <Assessment color="primary" style={{ fontSize: 30 }} />
                            </Tooltip>
                                <Typography variant="body1">
-                                   Łatwy
+                                   { this.convertLevel(recipe.level) }
                                </Typography>
                         </div>
 
@@ -32,7 +47,7 @@ class ReadInformation extends Component {
                                 <Timer color="primary" style={{ fontSize: 30 }} />
                             </Tooltip>
                             <Typography variant="body1">
-                                60 minut
+                                { recipe.time } minut
                             </Typography>
                         </div>
 
@@ -41,7 +56,7 @@ class ReadInformation extends Component {
                                 <CloudUpload color="primary" style={{ fontSize: 30 }} />
                             </Tooltip>
                             <Typography variant="body1">
-                                2019-02-24 19:38
+                                { recipe.created_at.substring(0, 10) }
                             </Typography>
                         </div>
                     </div>
@@ -57,17 +72,17 @@ class ReadInformation extends Component {
 
                         <div>
                             <Typography variant="h6" color="primary">
-                                Krzysztof Kowalski
+                                { recipe.author }
                             </Typography>
 
                             <Typography>
-                                Bloger kulinarny
+                                -
                             </Typography>
                         </div>
                     </div>
 
                     <div className="author-button">
-                        <Button component={Link} to="/user/1" color="primary" variant="outlined">Zobacz profil</Button>
+                        <Button component={Link} to={`/user/${recipe.author}`} color="primary" variant="outlined">Zobacz profil</Button>
                     </div>
                 </div>
             </div>

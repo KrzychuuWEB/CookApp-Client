@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './profilesettings.scss';
 import {
-    Button, CircularProgress,
+    Button, Checkbox, CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, Divider,
+    DialogTitle, Divider, FormControlLabel, FormGroup,
     Paper,
     Snackbar, Typography
 } from "@material-ui/core";
@@ -36,7 +36,8 @@ class UserSettingsTab extends Component {
             aboutMe: '',
         },
         errors: {},
-        open: false,
+        deleteDialog: false,
+        roleDialog: false,
         snackbar: {
             open: false,
             message: '',
@@ -135,16 +136,17 @@ class UserSettingsTab extends Component {
         });
     };
 
-    handleClickOpen = () => {
-        this.setState({ open: true });
+    handleClickOpen = (name) => e => {
+        this.setState({ [name]: true });
     };
 
-    handleClose = () => {
-        this.setState({ open: false });
+    handleClose = (name) => e => {
+        this.setState({ [name]: false });
     };
 
     render() {
         const { snackbar, processing, errors, accountValues } = this.state;
+        const { user } = this.props;
         const style = {
             marginBottom: '20px',
         };
@@ -154,50 +156,120 @@ class UserSettingsTab extends Component {
                 <div className="user-profile-setting-container">
                     <Paper className="paper">
                         <div>
-                            <div className="profile-settings-delete-user">
-                                <Typography variant="body2">
-                                    Usuń użytkownika:
-                                </Typography>
+                            <div>
+                                <div className="profile-settings-delete-user">
+                                    <Typography variant="body2">
+                                        Usuń użytkownika:
+                                    </Typography>
 
-                                {
-                                    processing
-                                        ? <CircularProgress />
-                                        : <Button
-                                            className="profile-settings-delete-button"
-                                            variant="contained"
+                                    {
+                                        processing
+                                            ? <CircularProgress />
+                                            : <Button
+                                                className="profile-settings-delete-button"
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.handleClickOpen("deleteDialog")}
+                                            >
+                                                Usuń
+                                            </Button>
+                                    }
+                                </div>
+
+                                <Dialog
+                                    open={this.state.deleteDialog}
+                                    onClose={this.handleClose}
+                                >
+                                    <DialogTitle>Czy na pewno chcesz usunąć tego użytkownika?</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText>
+                                            Akcji usunięcia użytkownika nie można przywrócić!
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={this.handleClose("deleteDialog")}
+                                        >
+                                            Anuluj
+                                        </Button>
+                                        <Button
+                                            onClick={this.deleteAction}
                                             color="primary"
-                                            onClick={this.handleClickOpen}
+                                            variant="contained"
                                         >
                                             Usuń
                                         </Button>
-                                }
+                                    </DialogActions>
+                                </Dialog>
                             </div>
 
-                            <Dialog
-                                open={this.state.open}
-                                onClose={this.handleClose}
-                            >
-                                <DialogTitle>Czy na pewno chcesz usunąć tego użytkownika?</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText>
-                                        Akcji usunięcia użytkownika nie można przywrócić!
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={this.handleClose}
-                                    >
-                                        Anuluj
-                                    </Button>
-                                    <Button
-                                        onClick={this.deleteAction}
-                                        color="primary"
-                                        variant="contained"
-                                    >
-                                        Usuń
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
+                            <div style={style} />
+
+                            <div>
+                                <div className="profile-settings-delete-user">
+                                    <Typography variant="body2">
+                                        Uprawnienia użytkownika:
+                                    </Typography>
+
+                                    {
+                                        processing
+                                            ? <CircularProgress />
+                                            : <Button
+                                                className="profile-settings-delete-button"
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.handleClickOpen("roleDialog")}
+                                            >
+                                                Zmień
+                                            </Button>
+                                    }
+                                </div>
+
+                                <Dialog
+                                    open={this.state.roleDialog}
+                                    onClose={this.handleClose}
+                                >
+                                    <DialogTitle>Wybierz uprawnienia dla użytkownika {user.username}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText>
+                                            <FormGroup row>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            value="Administrator"
+                                                        />
+                                                    }
+                                                    label="Administrator"
+                                                />
+
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            disabled
+                                                            value="Użytkownik"
+                                                        />
+                                                    }
+                                                    label="Użytkownik"
+                                                />
+                                            </FormGroup>
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={this.handleClose("roleDialog")}
+                                        >
+                                            Anuluj
+                                        </Button>
+                                        <Button
+                                            onClick={this.handleClose}
+                                            color="primary"
+                                            variant="contained"
+                                        >
+                                            Zmień
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
+                            </div>
 
                             <div style={style} />
                             <Divider />

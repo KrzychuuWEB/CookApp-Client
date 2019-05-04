@@ -14,6 +14,7 @@ class ReadTabs extends Component {
 
     render() {
         const { value } = this.state;
+        const { recipe } = this.props;
 
         return (
             <div className="read-recipe-control-tabs">
@@ -26,13 +27,11 @@ class ReadTabs extends Component {
                         centered
                     >
                         <Tab label="Przepis" />
-                        <Tab label="Komentarze (123)" />
                     </Tabs>
                 </div>
 
                 <Paper className="paper">
-                    { value === 0 && <RecipeTab/> }
-                    { value === 1 && "123" }
+                    { value === 0 && <RecipeTab recipe={recipe} /> }
                 </Paper>
             </div>
         );

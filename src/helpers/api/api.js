@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const postAndPutSkeleton = (url, method, body, resolve, reject) => {
+const postAndPutSkeleton = (url, method, body, resolve, reject, convertToJSON) => {
     axios({
         method: method,
         url: url,
@@ -8,7 +8,7 @@ const postAndPutSkeleton = (url, method, body, resolve, reject) => {
             'Content-Type': 'application/json; charset=utf-8',
             'Accept-Language': 'pl',
         },
-        data: JSON.stringify(body),
+        data: convertToJSON ? JSON.stringify(body) : body,
     })
         .then(response => {
             resolve(response);
@@ -39,15 +39,15 @@ export const get = (url) => {
     );
 };
 
-export const post = (url, data) => {
+export const post = (url, data, convertToJSON = true) => {
     return new Promise(
-        (resolve, reject) => postAndPutSkeleton(url, 'POST', data, resolve, reject)
+        (resolve, reject) => postAndPutSkeleton(url, 'POST', data, resolve, reject, convertToJSON)
     );
 };
 
-export const put = (url, data) => {
+export const put = (url, data, convertToJSON = true) => {
     return new Promise(
-        (resolve, reject) => postAndPutSkeleton(url, 'PUT', data, resolve, reject)
+        (resolve, reject) => postAndPutSkeleton(url, 'PUT', data, resolve, reject, convertToJSON)
     );
 };
 

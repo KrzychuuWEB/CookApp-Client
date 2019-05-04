@@ -4,26 +4,26 @@ export function setUser(token)
 {
     let user = JSON.stringify(jwt_decode(token));
 
-    localStorage.setItem("user_info", user);
+    sessionStorage.setItem("user_info", user);
 }
 
 export function getUser()
 {
-    return JSON.parse(localStorage.getItem("user_info"));
+    return JSON.parse(sessionStorage.getItem("user_info"));
 }
 
 export function setUserToken(token)
 {
-    localStorage.setItem("user_token", token);
+    sessionStorage.setItem("user_token", token);
 }
 
 export function getUserToken()
 {
-    return localStorage.getItem("user_token")
+    return sessionStorage.getItem("user_token")
 }
 
 export function destroyUserStorage()
 {
-    localStorage.removeItem("user_info");
-    localStorage.removeItem("user_token");
+    sessionStorage.removeItem("user_info");
+    sessionStorage.removeItem("user_token");
 }

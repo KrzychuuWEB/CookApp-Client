@@ -29,7 +29,7 @@ class UploadStepByStep extends Component {
         let validate = this.validation();
 
         if(validate) {
-            console.log(this.props.values);
+            this.props.nextStep();
         } else {
             return false;
         }
@@ -69,7 +69,7 @@ class UploadStepByStep extends Component {
                         variant="contained"
                         color="primary"
                         onClick={this.onSubmit}
-                    >Dodaj przepis</Button>
+                    >Dalej</Button>
                 </div>
             </div>
         );

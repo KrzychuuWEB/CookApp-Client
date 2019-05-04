@@ -12,16 +12,9 @@ import Lightbox from "../../../../Lightbox";
 import { ExpandMore } from '@material-ui/icons';
 
 class RecipeTab extends Component {
-    state = {
-      checkbox: [
-          "1 puszka brzoskwiń",
-          "1/2 łyżki mleka",
-          "1 margaryna",
-          "1 opakowanie proszku do pieczenia",
-      ]
-    };
-
     render() {
+        const { recipe } = this.props;
+
         return (
             <div className="read-recipe-tab">
                 <div className="flex">
@@ -32,12 +25,14 @@ class RecipeTab extends Component {
 
                         <FormGroup column>
                             {
-                                this.state.checkbox.map(item => (
-                                    <FormControlLabel control={
+                                recipe.ingredients.map(ingredient => (
+                                    <FormControlLabel key={ingredient.name} control={
                                         <Checkbox
-                                            values={item}
+                                            values={ingredient.name}
                                         />
-                                    } label={item} />
+                                    } label={
+                                        `${ingredient.value} ${ingredient.unit} ${ingredient.name}`
+                                    } />
                                 ))
                             }
                         </FormGroup>
@@ -48,33 +43,22 @@ class RecipeTab extends Component {
                             Przygotowanie
                         </Typography>
 
-                        <ExpansionPanel>
-                            <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
-                                <Typography>
-                                    1. Przygotowanie ciasta
-                                </Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                    sit amet blandit leo lobortis eget.
-                                </Typography>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-
-                        <ExpansionPanel>
-                            <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
-                                <Typography>
-                                    2. Przygotowanie masy
-                                </Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                    sit amet blandit leo lobortis eget.
-                                </Typography>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
+                        {
+                            recipe.steps.map(step => (
+                                <ExpansionPanel key={step.step}>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+                                        <Typography>
+                                            { step.step }. {step.name}
+                                        </Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>
+                                            { step.description }
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            ))
+                        }
                     </div>
                 </div>
 
@@ -84,20 +68,27 @@ class RecipeTab extends Component {
                     </Typography>
 
                     <div className="flex-gallery">
-                        {[
-                            "https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-                            "http://www.kamilczaja.com/wp-content/uploads/2013/03/008-fotografia_reklamowa_jedzenia_i_potrawy_krewetki_z_grzankami-zdjecia-do-restauracji.jpg",
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzDyuoBbBUKA5kED0di-93KpoC1odh8-qwjvDMFZcTaZSn9WXb",
-
-                        ].map(value => (
-                            <div className="recipe-gallery">
-                                <Lightbox
-                                    className="img-style"
-                                    alt="test"
-                                    src={value}
-                                />
-                            </div>
-                        ))}
+                        {
+                            recipe.photos
+                                ? <div>
+                                    {
+                                        recipe.photos.map(photo => (
+                                            <div key={photo.id} className="recipe-gallery">
+                                                <Lightbox
+                                                    className="img-style"
+                                                    alt={photo.name}
+                                                    src={`http://localhost/projekty/ecook/api/public/images/${photo.name}`}
+                                                />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                                : <div>
+                                    <Typography>
+                                        Brak zdjęć przepisu!
+                                    </Typography>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -35,7 +35,7 @@ class App extends Component {
                             <Header />
                             <Switch>
                                 <Route exact path="/" component={Home} />
-                                <Route exact path="/recipe/:id" component={ReadRecipe} />
+                                <Route exact path="/recipe/:recipeSlug" component={ReadRecipe} />
                                 <Route exact path="/user/:username" component={UserProfile} />
                                 <Route exact path="/license" component={License} />
                                 <DisabledIfLogged exact path="/login" component={Login} />

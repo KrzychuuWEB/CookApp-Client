@@ -3,59 +3,52 @@ import '../../upload.scss';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/es/Typography";
 import Button from "@material-ui/core/es/Button/Button";
-import IconButton from "@material-ui/core/es/IconButton/IconButton";
-import { PhotoCamera, Photo } from '@material-ui/icons';
-import List from "@material-ui/core/es/List/List";
-import ListItem from "@material-ui/core/es/ListItem/ListItem";
-import ListItemIcon from "@material-ui/core/es/ListItemIcon/ListItemIcon";
-import FormControlLabel from "@material-ui/core/es/FormControlLabel/FormControlLabel";
-import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
+import {isFormValid} from "../../../../../helpers/validations";
+import {
+    validRecipePhotosExtension,
+    validRecipePhotosLength
+} from "../../../../../helpers/validations/recipe.validations";
+import RecipePhotosFields from "../../../FormFields/Photos";
 
 class UploadStepsPhotos extends Component {
     state = {
-        files: {},
         skipPhoto: false,
-        error: false,
+        errors: {},
     };
 
-    valid = () => {
-        const file = this.state.files;
-        let isError = false;
+    validation = () => {
+        const {photos} = this.props.values;
+        let errors = {};
 
-        for(let i = 0; i < file.length; i++) {
-            let fileName = file[i].name;
-            let fileExtension = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
+        validRecipePhotosExtension(errors, photos);
+        validRecipePhotosLength(errors, photos);
 
-            if (fileExtension !== 'jpeg' && fileExtension !== 'psng' && fileExtension !== 'jpg') {
-                isError = "Obługujemy tylko pliki z rozszerzeniem .jpg, .png, .jpeg!";
-            }
-        }
-
-        this.setState({error: isError});
-        return isError;
-    };
-
-    onChange = e => {
-        this.setState({files: e.target.files, error: false});
+        this.setState({errors: errors});
+        return isFormValid(errors);
     };
 
     onSubmit = () => {
         let skipPhoto = this.state.skipPhoto;
-        let isValid = this.valid();
+        let checkError = this.validation();
 
         if(skipPhoto) {
             this.props.nextStep();
         } else {
-            if(isValid) {
+            if(checkError) {
                 this.props.nextStep();
             } else {
-                this.setState({error: "Musisz wybrać przynajmniej jedno zdjęcie, jeżeli nie masz zdjęcia przepisu zaznacz checkboxa na dole"})
+                return false;
             }
         }
     };
 
+    onChangeSkipPhoto = e => {
+        this.setState({skipPhoto: e.target.checked})
+    };
+
     render() {
-        const { backStep } = this.props;
+        const { backStep, values, onChange } = this.props;
+        const { errors, skipPhoto } = this.state;
 
         return(
             <div>
@@ -65,58 +58,13 @@ class UploadStepsPhotos extends Component {
                     </Typography>
 
                     <div className="upload-recipe">
-                        <div className="container-upload-button">
-                            <div>
-                                <input multiple accept="image/*" onChange={this.onChange} style={{display: 'none'}} id="icon-button-file" type="file" />
-                                <Typography align="center">
-                                    Aby dodać zdjęcia kliknij ikonę aparatu (aby dodać więcej niż jedno zdjęcie przytrzymaj CTRL)
-
-                                    <label htmlFor="icon-button-file">
-                                        <IconButton color="primary" component="span">
-                                            <PhotoCamera />
-                                        </IconButton>
-                                    </label>
-                                </Typography>
-
-                                { this.state.error ?
-                                    <Typography color="error" align="center">
-                                        { this.state.error }
-                                    </Typography>
-                                    : false
-                                }
-                            </div>
-                        </div>
-
-                        <List>
-                            {
-                                Object.keys(this.state.files).map((item) => (
-                                    <ListItem key={item}>
-                                        <ListItemIcon>
-                                            <Photo />
-                                        </ListItemIcon>
-
-                                        {this.state.files[item].name}
-                                    </ListItem>
-                                ))
-                            }
-
-                            { this.state.files.length > 0 ?
-                                <Typography variant="caption" align="center">
-                                    Aby ponownie wybrać zdjęcia kliknij ikonę aparatu
-                                </Typography>
-                                : null
-                            }
-                        </List>
-
-                        <FormControlLabel control={
-                            <Checkbox
-                                checked={this.state.skipPhoto}
-                                onChange={e => {
-                                    this.setState({skipPhoto: e.target.checked})
-                                }}
-                                value="skipPhoto"
-                            />
-                        } label="Nie mam zdjęcia przepisu"/>
+                        <RecipePhotosFields
+                            onChange={onChange}
+                            errors={errors}
+                            values={values}
+                            skipPhoto={skipPhoto}
+                            onChangeSkipPhoto={this.onChangeSkipPhoto}
+                        />
                     </div>
                 </Paper>
 

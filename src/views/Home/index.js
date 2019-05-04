@@ -29,14 +29,17 @@ class Home extends Component {
 
                 <div className="flex-card">
                     {[0, 1, 2, 3, 4].map(value => (
-                        <Card className="card">
+                        <Card className="card" key={value}>
                             <CardHeader
                                 avatar={
-                                    <Avatar aria-label="Recipe">
-                                        K
-                                    </Avatar>
+                                    <Avatar
+                                        className="avatar"
+                                        src="https://pngimage.net/wp-content/uploads/2018/05/avatar-perfil-png-1.png"
+                                        // src="https://images89.fotosik.pl/103/ee0c33fe1b62f569med.png"
+                                        alt="User avatar - ECook"
+                                    />
                                 }
-                                title="Shrimp and Chorizo Paella"
+                                title="Shrimp and Chorizo Paella and Chorizo Paella and Chorizo Paella"
                                 subheader="September 14, 2016"
                             />
 

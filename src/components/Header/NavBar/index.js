@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+import { AppBar, Toolbar, IconButton, Typography, InputBase, Button, Drawer } from '@material-ui/core';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import Button from "@material-ui/core/es/Button/Button";
-import Drawer from "@material-ui/core/es/Drawer/Drawer";
+import { Search, Menu } from '@material-ui/icons';
 import LeftMenuList from "../LeftMenuList";
+import {getUser} from "../../../helpers/storage/user.storage";
+import LoggedUserMenu from "./LoggedUserMenu";
 
 const styles = theme => ({
     list: {
@@ -89,19 +84,20 @@ class NavBar extends Component {
 
     render() {
         const { classes } = this.props;
+
         return (
             <div className={classes.root}>
                 <AppBar position="fixed">
                     <Toolbar>
                         <IconButton onClick={this.toggleDrawer('left', true)} className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                            <MenuIcon />
+                            <Menu />
                         </IconButton>
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                             ECook
                         </Typography>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
-                                <SearchIcon />
+                                <Search />
                             </div>
                             <InputBase
                                 placeholder="Znajdz przepis..."
@@ -112,7 +108,11 @@ class NavBar extends Component {
                             />
                         </div>
                         <div className={classes.grow} />
-                        <Button color="inherit" component={Link} to="/login">Zaloguj</Button>
+                        {
+                            !getUser()
+                                ? <Button color="inherit" component={Link} to="/login">Zaloguj</Button>
+                                : <LoggedUserMenu/>
+                        }
                     </Toolbar>
                 </AppBar>
 

@@ -1,0 +1,87 @@
+.read-information {
+  .recipe-information {
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .additional-information {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: 450px) {
+        flex-direction: column;
+        margin: 20px 0;
+        align-items: flex-start;
+      }
+
+      @media (min-width: 1024px) {
+        justify-content: flex-start;
+      }
+
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: 450px) {
+          margin-top: 10px;
+        }
+
+        @media (min-width: 1024px) {
+          margin-right: 40px;
+        }
+
+        p {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .line {
+    width: 95%;
+    height: 1px;
+    background-color: #efefef;
+    border-radius: 100%;
+    margin: 20px auto;
+  }
+
+  .author-information {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 450px) {
+      display: block;
+    }
+    
+    .author {
+      display: flex;
+      align-items: flex-start;
+
+      @media (max-width: 450px) {
+        justify-content: center;
+      }
+
+      div {
+        &:first-child {
+          .avatar {
+            height: 50px;
+            width: 50px;
+          }
+
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .author-button {
+      @media (max-width: 450px) {
+        margin-top: 30px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.no-access-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .no-access-icon {
+    font-size: 100px;
+  }
+}

@@ -1,0 +1,28 @@
+.edit-recipe {
+  > div {
+    position: relative;
+    margin-bottom: 30px;
+
+    .paper {
+      padding: 20px;
+
+      .fab-icon {
+        position: absolute;
+        right: 10px;
+        top: 0;
+      }
+    }
+  }
+
+  .button-change-mode {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .floating-button-save-recipe {
+    position: fixed;
+    bottom: 35px;
+    right: 35px;
+  }
+}

@@ -1,0 +1,30 @@
+version: '3.4'
+
+# Prod Conf
+#networks:
+#  web:
+#    external: true
+#  internal:
+#    external: false
+
+services:
+  client:
+    container_name: cookapp-react
+    build:
+      context: .
+      dockerfile: .docker/node/${APP_ENV}/Dockerfile
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
+
+      # Prod Conf
+#    labels:
+#      - traefik.backend=react-app
+#      - traefik.enable=true
+#      - traefik.frontend.rule=Host:domain.pl
+#      - traefik.docker.network=web
+#      - traefik.port=80
+#    networks:
+#      - web
+    restart: unless-stopped

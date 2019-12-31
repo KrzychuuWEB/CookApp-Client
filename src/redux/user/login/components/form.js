@@ -1,83 +1,110 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { reduxForm, Field,  } from "redux-form";
+import {reduxForm, Field, } from "redux-form";
 import TextField from "../../../../components/mui/fields/textField";
-import {Button, CircularProgress} from "@material-ui/core";
+import {
+    Button,
+    InputAdornment,
+    IconButton,
+} from "@material-ui/core";
 import sendLoginForm from "./sendForm";
-import PasswordField from "../../../../components/mui/fields/passwordField";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import InformationDialog from "../../../../components/mui/informationDialog";
+import { useHistory } from "react-router-dom";
+import { validate } from "./validate";
+import {createSnackNotification} from "../../../notifications/snackbar/duck/operations";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
     field: {
-        marginBottom: 15
+        marginBottom: 25,
     },
     buttons: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        marginTop: 40,
-    },
-    loading: {
-        marginRight: 30,
+        marginTop: 20,
     },
 }));
 
-const validate = (formData) => {
-    const errors = {};
-
-    if (!formData.username || formData.username.length < 0) {
-        errors.username = "Login nie może być puste!";
-    }
-
-    // if (!formData.password || formData.password.length < 8) {
-    //     errors.password = "Hasło nie może być puste!";
-    // }
-
-    return errors;
-};
-
-
-function UserLoginForm({ handleSubmit, submitting }) {
+const UserLoginForm = ({ handleSubmit, submitting, initialize }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const [values, setValues] = React.useState({
+        showPassword: false,
+    });
+
+    React.useEffect(() => {
+        initialize({email: "admin@ecookhub.pl", password: "admin"});
+    }, [initialize]);
+
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
+
+    const handleMouseDownPassword = event => {
+        event.preventDefault();
+    };
+
+    let history = useHistory();
+    const redirectIfLoginSuccess = async (formData) => {
+        await sendLoginForm(formData)
+            .then(() => {
+                history.push("/");
+                dispatch(createSnackNotification("success", "Zostałeś zalogowany!"));
+            })
+    };
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit(sendLoginForm)}>
+        <form autoComplete="off" onSubmit={handleSubmit(redirectIfLoginSuccess)}>
             <Field
-                name="username"
+                name="email"
                 component={TextField}
-                label="Login"
+                label="Twój email"
                 classesContainer={classes.field}
             />
 
             <Field
                 name="password"
-                component={PasswordField}
-                label="Hasło"
+                component={TextField}
+                label="Twoje hasło"
                 classesContainer={classes.field}
+                type={values.showPassword ? 'text' : 'password'}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                                edge="end"
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                            >
+                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
             />
 
            <div className={classes.buttons}>
                <Button
-                   color="secondary"
-                   variant="text"
+                   color="primary"
+                   variant="contained"
+                   type="submit"
                >
-                   Zapomniałem hasła
+                   Zaloguj
                </Button>
-
-               {
-                   submitting
-                       ? <CircularProgress size={24} className={classes.loading} />
-                       : <Button
-                           color="primary"
-                           variant="contained"
-                           type="submit"
-                       >
-                           Zaloguj
-                       </Button>
-               }
            </div>
+
+            <InformationDialog
+                open={submitting}
+                title="Trwa proces logowania"
+                text="Za chwile zostaniesz zalogowany"
+            />
         </form>
     );
-}
+};
 
 export default reduxForm({
     form: "user-login-form",

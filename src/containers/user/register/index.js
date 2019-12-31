@@ -1,19 +1,19 @@
 import React from "react";
 import AccountBoxWithLogo from "../../../components/containers/accountBoxWithLogo";
-import UserLoginForm from "../../../redux/user/login/components/form";
+import UserRegisterForm from "../../../redux/user/register/components/form";
 import ApiErrorsControl from "../../../helpers/api/interceptors/apiErrorsControl";
 
-const LoginContainer = () => {
+const RegisterContainer = () => {
     return (
         <ApiErrorsControl>
             <AccountBoxWithLogo
-                title="Zaloguj się"
+                title="Tworzenie nowego konta"
                 redirectLocation="/account"
             >
-                <UserLoginForm />
+                <UserRegisterForm />
             </AccountBoxWithLogo>
         </ApiErrorsControl>
     );
 };
 
-export default LoginContainer;
+export default RegisterContainer;

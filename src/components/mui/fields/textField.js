@@ -20,6 +20,7 @@ function TextField({
                 name={name}
                 {...input}
                 {...custom}
+                variant="outlined"
             />
 
             <ErrorHelperText

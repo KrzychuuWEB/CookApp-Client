@@ -5,6 +5,7 @@ import {IconButton, Menu, MenuItem} from "@material-ui/core";
 import { MoreVert, PowerSettingsNew } from "@material-ui/icons";
 import {getUserStorage} from "../../../helpers/storage/user.storage";
 import LoggedUserMenu from "./loggedUserMenu";
+import {routePath} from "../../../helpers/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     menu: {
@@ -55,7 +56,7 @@ function MobileMenu() {
                             className={classes.menu}
                         >
                             <div>
-                                <MenuItem component={Link} to="/account">
+                                <MenuItem component={Link} to={routePath.account}>
                                     <IconButton>
                                         <PowerSettingsNew />
                                     </IconButton>

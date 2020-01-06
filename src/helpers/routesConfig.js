@@ -1,6 +1,7 @@
 import React from "react";
 import {Redirect, Route} from "react-router-dom";
 import {getUserStorage} from "./storage/user.storage";
+import { routePath } from "./pages.routes";
 
 export const DisabledIfLogged = ({component: Component, ...rest}) => (
     <Route
@@ -8,7 +9,7 @@ export const DisabledIfLogged = ({component: Component, ...rest}) => (
         render={props =>
             getUserStorage()
                 ? (<Redirect to={{
-                    pathname: "/",
+                    pathname: routePath.home,
                     state: {from: props.location}
                 }} />)
                 : (<Component {...props} />)
@@ -23,7 +24,7 @@ export const PrivateRoute = ({component: Component, ...rest}) => (
             getUserStorage()
                 ? (<Component {...props} />)
                 : (<Redirect to={{
-                        pathname: "/login",
+                        pathname: routePath.login,
                         state: {from: props.location}
                     }} />
                 )

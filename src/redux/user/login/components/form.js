@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import { validate } from "./validate";
 import {createSnackNotification} from "../../../notifications/snackbar/duck/operations";
 import { useDispatch } from "react-redux";
+import {routePath} from "../../../../helpers/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     field: {
@@ -51,7 +52,7 @@ const UserLoginForm = ({ handleSubmit, submitting, initialize }) => {
     const redirectIfLoginSuccess = async (formData) => {
         await sendLoginForm(formData)
             .then(() => {
-                history.push("/");
+                history.push(routePath.home);
                 dispatch(createSnackNotification("success", "Zostałeś zalogowany!"));
             })
     };

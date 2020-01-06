@@ -8,6 +8,7 @@ import {APP_NAME} from "../../../helpers/constants";
 import MobileMenu from "./mobileMenu";
 import DesktopMenu from "./desktopMenu";
 import MenuLeft from "./menuLeft";
+import {routePath} from "../../../helpers/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -75,7 +76,7 @@ function MenuBar() {
                             <MenuIcon />
                         </IconButton>
                         <Tooltip title="Przejdz do strony głównej">
-                            <Typography component={Link} to="/" color="primary" className={classes.title} variant="h6" noWrap>
+                            <Typography component={Link} to={routePath.home} color="primary" className={classes.title} variant="h6" noWrap>
                                 { APP_NAME }
                             </Typography>
                         </Tooltip>

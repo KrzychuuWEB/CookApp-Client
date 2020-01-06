@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {IconButton, Menu, MenuItem} from "@material-ui/core";
 import { AccountCircle, ExitToApp } from "@material-ui/icons";
+import {routePath} from "../../../helpers/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     iconSize: {
@@ -49,7 +50,7 @@ function LoggedUserMenu() {
                 onClose={handleClose}
                 className={classes.menu}
             >
-                <MenuItem component={Link} to="/logout"><IconButton><ExitToApp /></IconButton>Wyloguj</MenuItem>
+                <MenuItem component={Link} to={routePath.logout}><IconButton><ExitToApp /></IconButton>Wyloguj</MenuItem>
             </Menu>
         </div>
     );

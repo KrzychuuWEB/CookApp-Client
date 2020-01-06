@@ -7,17 +7,18 @@ import AccountContainer from "./containers/user/accountActionList";
 import LoginContainer from "./containers/user/login";
 import RegisterContainer from "./containers/user/register";
 import OtherComponents from "./helpers/otherComponents";
+import {routePath} from "./helpers/pages.routes";
 
 const App = () => {
     return (
         <BrowserRouter>
             <OtherComponents>
                 <Switch>
-                    <Route exact path="/" component={HomeContainer} />
-                    <PrivateRoute exact path="/logout" component={LogoutContainer} />
-                    <DisabledIfLogged exact path="/account" component={AccountContainer} />
-                    <DisabledIfLogged exact path="/account/login" component={LoginContainer} />
-                    <DisabledIfLogged exact path="/account/register" component={RegisterContainer} />
+                    <Route exact path={routePath.home} component={HomeContainer} />
+                    <PrivateRoute exact path={routePath.logout} component={LogoutContainer} />
+                    <DisabledIfLogged exact path={routePath.account} component={AccountContainer} />
+                    <DisabledIfLogged exact path={routePath.login} component={LoginContainer} />
+                    <DisabledIfLogged exact path={routePath.register} component={RegisterContainer} />
                 </Switch>
             </OtherComponents>
         </BrowserRouter>

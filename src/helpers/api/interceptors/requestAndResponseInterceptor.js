@@ -6,6 +6,7 @@ import {refreshTokenUser} from "../user.api";
 import { useDispatch } from "react-redux";
 import {createSnackNotification} from "../../../redux/notifications/snackbar/duck/operations";
 import {logoutProcess} from "../../function/logout";
+import {routePath} from "../../pages.routes";
 
 const requestInterceptor = () => {
     axios.interceptors.request.use((config) => {
@@ -29,8 +30,7 @@ const responseInterceptor = (history) => dispatch => {
         const originalRequest = error.config;
 
         if (!getUserToken("refresh_token") || !getUserToken("token")) {
-            console.log("token");
-            setTimeout(() => {history.push("/account/login")}, 800);
+            setTimeout(() => {history.push(routePath.login)}, 800);
             dispatch(createSnackNotification("error", "Aby uzyskać dostęp musisz się zalogować!"));
 
             return new Promise(() => {});
@@ -46,8 +46,7 @@ const responseInterceptor = (history) => dispatch => {
 
             unauthorizedError = true;
 
-            //return refreshTokenUser({refresh_token: getUserToken("refresh_token")})
-            return refreshTokenUser({token: "abc"})
+            return refreshTokenUser({refresh_token: getUserToken("refresh_token")})
                 .then(response => {
                     if (response.status === 200) {
                         setUserToken("token", response.data.token);
@@ -58,9 +57,8 @@ const responseInterceptor = (history) => dispatch => {
                     }
                 })
                 .catch(() => {
-                    console.log("catch");
                     logoutProcess();
-                    setTimeout(() => {history.push("/account/login")}, 800);
+                    setTimeout(() => {history.push(routePath.login)}, 800);
                     dispatch(createSnackNotification("warning", "Twoja sesja wygasła, zaloguj się ponownie!"));
                 });
         }

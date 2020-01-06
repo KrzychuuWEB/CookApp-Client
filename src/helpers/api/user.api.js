@@ -1,4 +1,4 @@
-import {loginUserURL, RefreshTokenUserURL, RegisterUserURL} from "./routes";
+import {loginUserURL, RefreshTokenUserURL, RegisterUserURL} from "./routes.api";
 import * as api from "./api";
 
 export const loginUser = (params) => api.post(loginUserURL, params);

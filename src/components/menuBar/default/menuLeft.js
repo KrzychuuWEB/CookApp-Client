@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
+import {routePath} from "../../../helpers/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -21,7 +22,7 @@ function MenuLeft({toggleDrawer}) {
             onKeyDown={toggleDrawer("left", false)}
         >
             <List>
-                <ListItem button component={Link} to="/">
+                <ListItem button component={Link} to={routePath.home}>
                     <ListItemIcon><Home /></ListItemIcon>
                     <ListItemText primary="Strona główna" />
                 </ListItem>

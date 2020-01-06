@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import ApiErrors from "../../../components/errors/apiErrors";
 import {Button} from "@material-ui/core";
 import { Settings, NetworkCheck, SentimentVeryDissatisfied } from "@material-ui/icons";
+import {routePath} from "../../pages.routes";
 
 const ApiErrorsControl = ({ children }) => {
     const [ error, setError ] = React.useState({error: false});
 
-    const checkResponse = () => {
+    useEffect(() => {
         axios.interceptors.response.use(response => {
             return response;
         }, error => {
@@ -27,12 +28,10 @@ const ApiErrorsControl = ({ children }) => {
             setError({error: errorStatus});
             return Promise.reject(error);
         });
-    };
+    }, []);
 
     return (
         <div>
-            {checkResponse()}
-
             {
                 error.error
                     ? <div>
@@ -41,7 +40,7 @@ const ApiErrorsControl = ({ children }) => {
                                 icon={(<Settings />)}
                                 title="Brak połączenia z serwerem"
                                 description="Przepraszamy mamy chwilowe problemy z serwerem! Pracujemy nad rozwiązaniem problemu."
-                                actions={(<Button color="primary" variant="outlined" component={Link} to="/">strona główna</Button>)}
+                                actions={(<Button color="primary" variant="outlined" component={Link} to={routePath.home}>strona główna</Button>)}
                             />
                         }
 
@@ -50,7 +49,7 @@ const ApiErrorsControl = ({ children }) => {
                             icon={(<SentimentVeryDissatisfied />)}
                             title="Brak uprawnień"
                             description="Twoje konto nie posiada odpowiednich uprawnień do przeglądania tej strony!"
-                            actions={(<Button color="primary" variant="outlined" component={Link} to="/">strona główna</Button>)}
+                            actions={(<Button color="primary" variant="outlined" component={Link} to={routePath.home}>strona główna</Button>)}
                             />
                         }
 

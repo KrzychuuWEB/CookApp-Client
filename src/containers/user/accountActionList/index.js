@@ -4,6 +4,7 @@ import AccountBoxWithLogo from "../../../components/containers/accountBoxWithLog
 import {List, ListItem, ListItemText} from "@material-ui/core";
 import { AccountCircle, VpnKey, PersonAdd } from "@material-ui/icons";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import {routePath} from "../../../helpers/pages.routes";
 
 const AccountActionListContainer = () => {
     return (
@@ -12,21 +13,21 @@ const AccountActionListContainer = () => {
             redirectLocation="/"
         >
             <List component="nav">
-                <ListItem button divider component={Link} to="/account/login">
+                <ListItem button divider component={Link} to={routePath.login}>
                     <ListItemIcon>
                         <AccountCircle />
                     </ListItemIcon>
                     <ListItemText primary="Zaloguj się" />
                 </ListItem>
 
-                <ListItem button divider component={Link} to="/account/register">
+                <ListItem button divider component={Link} to={routePath.register}>
                     <ListItemIcon>
                         <PersonAdd />
                     </ListItemIcon>
                     <ListItemText primary="Zarejestruj się" />
                 </ListItem>
 
-                <ListItem button>
+                <ListItem button divider component={Link} to={routePath.recoveryPassword}>
                     <ListItemIcon>
                         <VpnKey />
                     </ListItemIcon>

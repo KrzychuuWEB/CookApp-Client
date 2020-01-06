@@ -10,6 +10,7 @@ import InformationDialog from "../../../../components/mui/informationDialog";
 import { useHistory } from "react-router-dom";
 import {createSnackNotification} from "../../../notifications/snackbar/duck/operations";
 import { useDispatch } from "react-redux";
+import {routePath} from "../../../../helpers/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     field: {
@@ -49,7 +50,7 @@ const UserRegisterForm = ({ handleSubmit, submitting, changeAccountPage }) => {
     const sendDataToApi = async (formData) => {
         await sendRegisterForm(formData)
             .catch(() => {
-                history.push("/account/login");
+                history.push(routePath.login);
                 dispatch(createSnackNotification("success", "Konto zostało utworzone"));
             })
     };

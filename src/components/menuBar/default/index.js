@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Typography, Tooltip, Drawer} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchInput from "./search";
-import {APP_NAME} from "../../../helpers/constants";
+import {APP_NAME} from "../../../global/constants";
 import MobileMenu from "./mobileMenu";
 import DesktopMenu from "./desktopMenu";
 import MenuLeft from "./menuLeft";
-import {routePath} from "../../../helpers/pages.routes";
+import {routePath} from "../../../global/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     root: {

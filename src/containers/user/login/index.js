@@ -1,7 +1,7 @@
 import React from "react";
-import AccountBoxWithLogo from "../../../components/containers/accountBoxWithLogo";
-import UserLoginForm from "../../../redux/user/login/components/form";
-import ApiErrorsControl from "../../../helpers/api/interceptors/apiErrorsControl";
+import AccountBoxWithLogo from "../../../components/accountBoxWithLogo";
+import UserLoginForm from "./components/form";
+import ApiErrorsControl from "../../../services/api/interceptors/apiErrorsControl";
 
 const LoginContainer = () => {
     return (

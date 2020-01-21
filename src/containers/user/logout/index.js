@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import { useHistory } from "react-router-dom"
-import {logoutProcess} from "../../../helpers/function/logout";
+import {logoutProcess} from "../../../services/logout";
 
 function LogoutContainer() {
     let history = useHistory();

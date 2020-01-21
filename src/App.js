@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import {DisabledIfLogged, PrivateRoute} from "./helpers/routesConfig";
+import {DisabledIfLogged, PrivateRoute} from "./services/routesConfig";
 import HomeContainer from "./containers/home";
 import LogoutContainer from "./containers/user/logout";
-import AccountContainer from "./containers/user/accountActionList";
+import AccountContainer from "./components/accountActionList";
 import LoginContainer from "./containers/user/login";
 import RegisterContainer from "./containers/user/register";
-import OtherComponents from "./helpers/otherComponents";
-import {routePath} from "./helpers/pages.routes";
+import OtherComponents from "./utils/otherComponents";
+import {routePath} from "./global/pages.routes";
 
 const App = () => {
     return (

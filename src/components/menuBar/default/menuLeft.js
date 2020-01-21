@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
-import {routePath} from "../../../helpers/pages.routes";
+import {routePath} from "../../../global/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     list: {

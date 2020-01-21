@@ -3,9 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import {IconButton, Menu, MenuItem} from "@material-ui/core";
 import { MoreVert, PowerSettingsNew } from "@material-ui/icons";
-import {getUserStorage} from "../../../helpers/storage/user.storage";
+import {getUserStorage} from "../../../services/storage/user.storage";
 import LoggedUserMenu from "./loggedUserMenu";
-import {routePath} from "../../../helpers/pages.routes";
+import {routePath} from "../../../global/pages.routes";
 
 const useStyles = makeStyles(theme => ({
     menu: {

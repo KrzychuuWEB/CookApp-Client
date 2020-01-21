@@ -1,6 +1,6 @@
 import React from 'react';
 import DefaultTemplate from "../../components/templates/default";
-import ApiErrorsControl from "../../helpers/api/interceptors/apiErrorsControl";
+import ApiErrorsControl from "../../services/api/interceptors/apiErrorsControl";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import {CircularProgress, Typography} from "@material-ui/core";

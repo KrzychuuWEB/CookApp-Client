@@ -1,7 +1,7 @@
 import React from "react";
-import AccountBoxWithLogo from "../../../components/containers/accountBoxWithLogo";
-import UserRegisterForm from "../../../redux/user/register/components/form";
-import ApiErrorsControl from "../../../helpers/api/interceptors/apiErrorsControl";
+import AccountBoxWithLogo from "../../../components/accountBoxWithLogo";
+import UserRegisterForm from "./components/form";
+import ApiErrorsControl from "../../../services/api/interceptors/apiErrorsControl";
 
 const RegisterContainer = () => {
     return (

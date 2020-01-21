@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {Button} from "@material-ui/core";
-import {getUserStorage} from "../../../helpers/storage/user.storage";
+import {getUserStorage} from "../../../services/storage/user.storage";
 import LoggedUserMenu from "./loggedUserMenu";
-import {routePath} from "../../../helpers/pages.routes";
+import {routePath} from "../../../global/pages.routes";
 
 function DesktopMenu() {
     return (
